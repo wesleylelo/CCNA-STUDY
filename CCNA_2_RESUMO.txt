@@ -7341,3 +7341,705 @@ To display information about the state of spanning tree, use the show spanning-t
 In the example, PortFast default and BPDU Guard are both enabled as the default state for ports configured as access mode;
 
 Note: Always enable BPDU Guard on all PortFast-enabled ports;
+
+"
+S1(config)# interface fa0/1
+S1(config-if)# spanning-tree bpduguard enable
+S1(config-if)# exit
+S1(config)# spanning-tree portfast bpduguard default
+S1(config)# end
+S1# show spanning-tree summary
+Switch is in pvst mode
+Root bridge for: none
+Extended system ID           is enabled
+Portfast Default             is enabled
+PortFast BPDU Guard Default  is enabled
+Portfast BPDU Filter Default is disabled
+Loopguard Default            is disabled
+EtherChannel misconfig guard is enabled
+UplinkFast                   is disabled
+BackboneFast                 is disabled
+Configured Pathcost method used is short
+(output omitted)
+S1#
+"
+
+Introduction to Wireless -
+
+Types of Wireless Networks -
+
+Wireless networks are based on the Institute of Electrical and Electronics Engineers (IEEE) standards and can be classified broadly into four main types: WPAN, WLAN, WMAN, and WWAN;
+
+Wireless Personal-Area Networks (WPAN) -
+
+Uses low powered transmitters for a short-range network, usually 20 to 30 ft. (6 to 9 meters);
+
+Bluetooth and ZigBee based devices are commonly used in WPANs;
+
+WPANs are based on the 802.15 standard and a 2.4-GHz radio frequency;
+
+Wireless LANs (WLAN) -
+
+Uses transmitters to cover a medium-sized network, usually up to 300 feet;
+
+WLANs are suitable for use in a home, office, and even a campus environment.;
+
+WLANs are based on the 802.11 standard and a 2.4-GHz or 5-GHz radio frequency;
+
+Wireless MANs (WMAN) -
+
+Uses transmitters to provide wireless service over a larger geographic area;
+
+WMANs are suitable for providing wireless access to a metropolitan city or specific district;
+
+WMANs use specific licensed frequencies;
+
+Wireless Wide-Area Networks (WWANs) -
+
+Uses transmitters to provide coverage over an extensive geographic area;
+
+WWANs are suitable for national and global communications;
+
+WWANs also use specific licensed frequencies;
+
+Wireless Technologies -
+
+Wireless technology uses the unlicensed radio spectrum to send and receive data;
+
+The unlicensed spectrum is accessible to anyone who has a wireless router and wireless technology in the device they are using;
+
+Bluetooth - An IEEE 802.15 WPAN standard that uses a device-pairing process to communicate over distances up to 300 ft. (100m);
+
+It can be found in smart home devices, audio connections, automobiles, and other devices that require a short distance connection. There are two types of Bluetooth radios:
+
+Bluetooth Low Energy (BLE) - This supports multiple network technologies including mesh topology to large scale network devices;
+
+Bluetooth Basic Rate/Enhanced Rate (BR/EDR) - This supports point to point topologies and is optimized for audio streaming;
+
+WiMAX (Worldwide Interoperability for Microwave Access) -
+
+WiMAX is an alternative to broadband wired internet connections, competing with DSL and cable;
+
+However, it is typically used in areas that are not yet connected to a DSL or cable provider;
+
+It is an IEEE 802.16 WWAN standard that provides high-speed wireless broadband access of up to 30 miles (50 km);
+
+WiMAX operates in a similar way to Wi-Fi, but at higher speeds, over greater distances, and for a greater number of users;
+
+It uses a network of WiMAX towers that are similar to cell phone towers;
+
+WiMAX transmitters and cellular transmitters may share space on the same tower;
+
+Cellular Broadband -
+
+Cellular 4G/5G are wireless mobile networks primarily used by cellular phones but can be used in automobiles, tablets, and laptops;
+
+Cellular networks are multi-access networks carrying both data and voice communications;
+
+A cell site is created by a cellular tower transmitting signals in a given area;
+
+Interconnecting cell sites form the cellular network;
+
+The two types of cellular networks are Global System for Mobile (GSM) and Code Division Multiple Access (CDMA);
+
+GSM is internationally recognized, while CDMA is primarily used in the US;
+
+The 4th Generation mobile network (4G) is the current mobile network;
+
+4G delivers speeds that are 10 times the previous 3G networks;
+
+The new 5G holds the promise of delivering 100 times faster speeds than 4G and connecting more devices to the network than ever before;
+
+Satellite Broadband -
+
+Provides network access to remote sites through the use of a directional satellite dish that is aligned with a specific geostationary Earth orbit satellite;
+
+It is usually more expensive and requires a clear line of sight;
+
+Typically, it is used by rural homeowners and businesses where cable and DSL are not available;
+
+802.11 Standards -
+
+The world of wireless communications is vast;
+
+However, for particular job-related skills, we want to focus on specific aspects of Wi Fi;
+
+The best place to start is with the IEEE 802.11 WLAN standards;
+
+These standards define how radio frequencies are used for wireless links;
+
+Most of the standards specify that wireless devices have one antenna to transmit and receive wireless signals on the specified radio frequency (2.4 GHz or 5 GHz);
+
+Some of the newer standards that transmit and receive at higher speeds require access points (APs) and wireless clients to have multiple antennas using the multiple-input and multiple-output (MIMO) technology;
+
+MIMO uses multiple antennas as both the transmitter and receiver to improve communication performance;
+
+Up to eight transmit and receive antennas can be used to increase throughput;
+
+Various implementations of the IEEE 802.11 standard have been developed over the years;
+
+IEEE WLAN Standard	Radio Frequency		Description
+
+802.11			2.4 GHz			speeds of up to 2 Mbps
+
+802.11a			5 GHz			speeds of up to 54 Mbps
+						small coverage area
+						less effective at penetrating building structures
+						not interoperable with the 802.11b and 802.11g
+
+802.11b			2.4 GHz			speeds of up to 11 Mbps
+						longer range than 802.11a
+						better able to penetrate building structures
+
+802.11g			2.4 GHz			speeds of up to 54 Mbps
+						backward compatible with 802.11b with reduced bandwidth capacity
+
+802.11n			2.4 GHz 5 GHz		data rates range from 150 Mbps to 600 Mbps with a distance range of up to 70 m (230 feet)
+						APs and wireless clients require multiple antennas using MIMO technology
+						backward compatible with 802.11a/b/g devices with limiting data rates
+
+802.11ac		5 GHz			provides data rates ranging from 450 Mbps to 1.3 Gbps (1300 Mbps) using MIMO technology
+						Up to eight antennas can be supported
+						backwards compatible with 802.11a/n devices with limiting data rates
+
+802.11ax		2.4 GHz 5 GHz		latest standard released in 2019
+						also known as Wi-Fi 6 or High-Efficiency Wireless (HEW)
+						provides improved power efficiency, higher data rates, increased capacity, and handles many connected devices
+						currently operates using 2.4 GHz and 5 GHz but will use 1 GHz and 7 GHz when those frequencies become available
+						Search the internet for Wi-Fi Generation 6 for more information
+
+Radio Frequencies -
+
+All wireless devices operate in the radio waves range of the electromagnetic spectrum;
+
+WLAN networks operate in the 2.4 GHz frequency band and the 5 GHz band;
+
+Wireless LAN devices have transmitters and receivers tuned to specific frequencies of the radio waves range;
+
+Specifically, the following frequency bands are allocated to 802.11 wireless LANs:
+
+2.4 GHz (UHF) - 802.11b/g/n/ax
+5 GHz (SHF) - 802.11a/n/ac/ax
+
+Wireless Standards Organizations -
+
+Standards ensure interoperability between devices that are made by different manufacturers;
+
+Internationally, the three organizations influencing WLAN standards are the ITU-R, the IEEE, and the Wi-Fi Alliance;
+
+The International Telecommunication Union (ITU) regulates the allocation of the radio frequency spectrum and satellite orbits through the ITU-R;
+
+ITU-R stands for the ITU Radiocommunication Sector;
+
+The IEEE specifies how a radio frequency is modulated to carry information;
+
+It maintains the standards for local and metropolitan area networks (MAN) with the IEEE 802 LAN/MAN family of standards;
+
+The dominant standards in the IEEE 802 family are 802.3 Ethernet and 802.11 WLAN;
+
+The Wi-Fi Alliance is a global, non-profit, industry trade association devoted to promoting the growth and acceptance of WLANs;
+
+It is an association of vendors whose objective is to improve the interoperability of products that are based on the 802.11 standard by certifying vendors for conformance to industry norms and adherence to standards;
+
+WLAN Components -
+
+Wireless NICs -
+
+Wireless deployments require a minimum of two devices that have a radio transmitter and a radio receiver tuned to the same radio frequencies:
+
+End devices with wireless NICs;
+
+A network device, such as a wireless router or wireless AP;
+
+To communicate wirelessly, laptops, tablets, smart phones, and even the latest automobiles include integrated wireless NICs that incorporate a radio transmitter/receiver;
+
+However, if a device does not have an integrated wireless NIC, then a USB wireless adapter can be used;
+
+Note: Many wireless devices you are familiar with do not have visible antennas. They are embedded inside smartphones, laptops, and wireless home routers;
+
+Wireless Home Router -
+
+The type of infrastructure device that an end device associates and authenticates with varies based on the size and requirement of the WLAN.
+
+A home user typically interconnects wireless devices using a small, wireless router;
+
+The wireless router serves as an:
+
+Access point - This provides 802.11a/b/g/n/ac wireless access;
+
+Switch - This provides a four-port, full-duplex, 10/100/1000 Ethernet switch to interconnect wired devices;
+
+Router - This provides a default gateway for connecting to other network infrastructures, such as the internet;
+
+A wireless router is commonly implemented as a small business or residential wireless access device;
+
+The wireless router advertises its wireless services by sending beacons containing its shared service set identifier (SSID);
+
+Devices wirelessly discover the SSID and attempt to associate and authenticate with it to access the local network and internet;
+
+Most wireless routers also provide advanced features, such as high-speed access, support for video streaming, IPv6 addressing, quality of service (QoS), configuration utilities, and USB ports to connect printers or portable drives;
+
+Additionally, home users who want to extend their network services can implement Wi-Fi range extenders;
+
+A device can connect wirelessly to the extender, which boosts its communications to be repeated to the wireless router;
+
+Wireless Access Points -
+
+While range extenders are easy to set up and configure, the best solution would be to install another wireless access point to provide dedicated wireless access to the user devices;
+
+Wireless clients use their wireless NIC to discover nearby APs advertising their SSID;
+
+Clients then attempt to associate and authenticate with an AP;
+
+After being authenticated, wireless users have access to network resources;
+
+AP Categories -
+
+APs can be categorized as either autonomous APs or controller-based APs;
+
+Autonomous APs -
+
+These are standalone devices configured using a command line interface or a GUI;
+
+Autonomous APs are useful in situations where only a couple of APs are required in the organization;
+
+A home router is an example of an autonomous AP because the entire AP configuration resides on the device;
+
+If the wireless demands increase, more APs would be required;
+
+Each AP would operate independent of other APs and each AP would require manual configuration and management;
+
+This would become overwhelming if many APs were needed;
+
+Controller-based APs -
+
+These devices require no initial configuration and are often called lightweight APs (LAPs);
+
+LAPs use the Lightweight Access Point Protocol (LWAPP) to communicate with a WLAN controller (WLC);
+
+Controller-based APs are useful in situations where many APs are required in the network;
+
+As more APs are added, each AP is automatically configured and managed by the WLC;
+
+WLC has four ports connected to the switching infrastructure;
+
+These four ports are configured as a link aggregation group (LAG) to bundle them together;
+
+Much like how EtherChannel operates, LAG provides redundancy and load-balancing;
+
+All the ports on the switch that are connected to the WLC need to be trunking and configured with EtherChannel on;
+
+However, LAG does not operate exactly like EtherChannel;
+
+The WLC does not support Port Aggregation Protocol (PaGP) or Link Aggregation Control Protocol (LACP);
+
+Wireless Antennas -
+
+Most business class APs require external antennas to make them fully functioning units;
+
+Omnidirectional antennas provide 360-degree coverage and are ideal in houses, open office areas, conference rooms, and outside áreas;
+
+Directional antennas focus the radio signal in a given direction;
+
+This enhances the signal to and from the AP in the direction the antenna is pointin;
+
+This provides a stronger signal strength in one direction and reduced signal strength in all other directions;
+
+Examples of directional Wi-Fi antennas include Yagi and parabolic dish antenas;
+
+Multiple Input Multiple Output (MIMO) uses multiple antennas to increase available bandwidth for IEEE 802.11n/ac/ax wireless networks;
+
+Up to eight transmit and receive antennas can be used to increase throughput;
+
+WLAN Operation -
+
+802.11 Wireless Topology Modes -
+
+Wireless LANs can accommodate various network topologies;
+
+The 802.11 standard identifies two main wireless topology modes: Ad hoc mode and Infrastructure mode;
+
+Tethering is also a mode sometimes used to provide quick wireless access;
+
+Ad hoc mode -
+
+This is when two devices connect wirelessly in a peer-to-peer (P2P) manner without using APs or wireless routers;
+
+Include wireless clients connecting directly to each other using Bluetooth or Wi-Fi Direct;
+
+The IEEE 802.11 standard refers to an ad hoc network as an independent basic service set (IBSS);
+
+Infrastructure mode -
+
+This is when wireless clients interconnect via a wireless router or AP, such as in WLANs;
+
+APs connect to the network infrastructure using the wired distribution system, such as Ethernet;
+
+Tethering -
+
+A variation of the ad hoc topology is when a smart phone or tablet with cellular data access is enabled to create a personal hotspot;
+
+This feature is sometimes referred to as tethering;
+
+A hotspot is usually a temporary quick solution that enables a smart phone to provide the wireless services of a Wi-Fi router;
+
+Other devices can associate and authenticate with the smart phone to use the internet connection;
+
+BSS and ESS -
+
+A BSS consists of a single AP interconnecting all associated wireless clients;
+
+The circles depict the coverage area for the BSS, which is called the Basic Service Area (BSA);
+
+If a wireless client moves out of its BSA, it can no longer directly communicate with other wireless clients within the BSA.
+
+The Layer 2 MAC address of the AP is used to uniquely identify each BSS, which is called the Basic Service Set Identifier (BSSID);
+
+Therefore, the BSSID is the formal name of the BSS and is always associated with only one AP;
+
+Extended Service Set -
+
+When a single BSS provides insufficient coverage, two or more BSSs can be joined through a common distribution system (DS) into an ESS;
+
+An ESS is the union of two or more BSSs interconnected by a wired DS;
+
+Each ESS is identified by a SSID and each BSS is identified by its BSSID.
+
+Wireless clients in one BSA can now communicate with wireless clients in another BSA within the same ESS;
+
+Roaming mobile wireless clients may move from one BSA to another (within the same ESS) and seamlessly connect;
+
+The rectangular area the coverage area within which members of an ESS may communicate;
+
+This area is called the Extended Service Area (ESA);
+
+802.11 Frame Structure -
+
+Recall that all Layer 2 frames consist of a header, payload, and Frame Check Sequence (FCS) section;
+
+The 802.11 frame format is similar to the Ethernet frame format, except that it contains more fields;
+
+All 802.11 wireless frames contain the following fields:
+
+Frame Control - This identifies the type of wireless frame and contains subfields for protocol version, frame type, address type, power management, and security settings;
+
+Duration - This is typically used to indicate the remaining duration needed to receive the next frame transmission;
+
+From a wireless device:
+
+Address 1 Receiver Address - MAC address of the AP;
+
+Address 2 Transmitter Address - MAC address of the sender;
+
+Address 3 SA/DA/BSSID - MAC address of the destination which could be a wireless device or wired device;
+
+From the AP:
+
+Address 1 Receiver Address - MAC address of the sender;
+
+Address 2 Transmitter Address - MAC address of the AP;
+
+Address 3 SA/DA/BSSID - MAC address of the wireless destination;
+
+Sequence Control - This contains information to control sequencing and fragmented frames;
+
+Address4 - This usually missing because it is used only in ad hoc mode.
+
+Payload - This contains the data for transmission;
+
+FCS - This is used for Layer 2 error control;
+
+CSMA/CA -
+
+WLANs are half-duplex, shared media configurations;
+
+Half-duplex means that only one client can transmit or receive at any given moment;
+
+Shared media means that wireless clients can all transmit and receive on the same radio channel;
+
+This creates a problem because a wireless client cannot hear while it is sending, which makes it impossible to detect a collision;
+
+To resolve this problem, WLANs use carrier sense multiple access with collision avoidance (CSMA/CA) as the method to determine how and when to send data on the network;
+
+A wireless client does the following:
+
+Listens to the channel to see if it is idle, which means that is senses no other traffic is currently on the channel;
+
+The channel is also called the carrier;
+
+Sends a request to send (RTS) message to the AP to request dedicated access to the network;
+
+Receives a clear to send (CTS) message from the AP granting access to send;
+
+If the wireless client does not receive a CTS message, it waits a random amount of time before restarting the process;
+
+After it receives the CTS, it transmits the data;
+
+All transmissions are acknowledged;
+
+If a wireless client does not receive an acknowledgment, it assumes a collision occurred and restarts the process;
+
+Wireless Client and AP Association -
+
+For wireless devices to communicate over a network, they must first associate with an AP or wireless router;
+
+An important part of the 802.11 process is discovering a WLAN and subsequently connecting to it;
+
+Wireless devices complete the following three stage process:
+
+Discover a wireless AP;
+
+Authenticate with AP;
+
+Associate with AP;
+
+In order to have a successful association, a wireless client and an AP must agree on specific parameters;
+
+Parameters must then be configured on the AP and subsequently on the client to enable the negotiation of a successful association;
+
+SSID -The SSID name appears in the list of available wireless networks on a client;
+
+In larger organizations that use multiple VLANs to segment traffic, each SSID is mapped to one VLAN;
+
+Depending on the network configuration, several APs on a network can share a common SSID;
+
+Password - This is required from the wireless client to authenticate to the AP;
+
+Network mode - This refers to the 802.11a/b/g/n/ac/ad WLAN standards;
+
+APs and wireless routers can operate in a Mixed mode meaning that they can simultaneously support clients connecting via multiple standards;
+
+Security mode - This refers to the security parameter settings, such as WEP, WPA, or WPA2;
+
+Always enable the highest security level supported;
+
+Channel settings - This refers to the frequency bands used to transmit wireless data;
+
+Wireless routers and APs can scan the radio frequency channels and automatically select an appropriate channel setting;
+
+The channel can also be set manually if there is interference with another AP or wireless device;
+
+Passive and Active Discover Mode -
+
+Wireless devices must discover and connect to an AP or wireless router;
+
+Wireless clients connect to the AP using a scanning (probing) process;
+
+This process can be passive or active;
+
+In passive mode, the AP openly advertises its service by periodically sending broadcast beacon frames containing the SSID, supported standards, and security settings;
+
+The primary purpose of the beacon is to allow wireless clients to learn which networks and APs are available in a given area;
+
+This allows the wireless clients to choose which network and AP to use;
+
+In active mode, wireless clients must know the name of the SSID;
+
+The wireless client initiates the process by broadcasting a probe request frame on multiple channels;
+
+The probe request includes the SSID name and standards supported;
+
+APs configured with the SSID will send a probe response that includes the SSID, supported standards, and security settings;
+
+Active mode may be required if an AP or wireless router is configured to not broadcast beacon frames;
+
+A wireless client could also send a probe request without a SSID name to discover nearby WLAN networks;
+
+APs configured to broadcast beacon frames would respond to the wireless client with a probe response and provide the SSID name;
+
+APs with the broadcast SSID feature disabled do not respond;
+
+CAPWAP Operation -
+
+Introduction to CAPWAP -
+
+CAPWAP is an IEEE standard protocol that enables a WLC to manage multiple APs and WLANs;
+
+CAPWAP is also responsible for the encapsulation and forwarding of WLAN client traffic between an AP and a WLC;
+
+CAPWAP is based on LWAPP but adds additional security with Datagram Transport Layer Security (DTLS);
+
+CAPWAP establishes tunnels on User Datagram Protocol (UDP) ports;
+
+CAPWAP can operate either over IPv4 or IPv6, but uses IPv4 by default;
+
+IPv4 and IPv6 both use UDP ports 5246 and 5247;
+
+Port 5246 is for CAPWAP control messages used by the WLC to manage the AP;
+
+Port 5247 is used by CAPWAP to encapsulate data packets traveling to and from wireless clients;
+
+However, CAPWAP tunnels use different IP protocols in the packet header;
+
+IPv4 uses IP protocol 17 and IPv6 uses IP protocol 136;
+
+Split MAC Architecture -
+
+A key component of CAPWAP is the concept of a split media access control (MAC);
+
+The CAPWAP split MAC concept does all of the functions normally performed by individual APs and distributes them between two functional components:
+
+AP MAC Functions
+
+WLC MAC Functions
+
+AP MAC Functions				WLC MAC Functions
+
+Beacons and probe responses			Authentication
+Packet acknowledgements and retransmissions	Association and re-association of roaming clients
+Frame queueing and packet prioritization	Frame translation to other protocols
+MAC layer data encryption and decryption	Termination of 802.11 traffic on a wired interface
+
+DTLS Encryption -
+
+DTLS is a protocol which provides security between the AP and the WLC;
+
+It allows them to communicate using encryption and prevents eavesdropping or tampering;
+
+DTLS is enabled by default to secure the CAPWAP control channel but is disabled by default for the data channel;
+
+All CAPWAP management and control traffic exchanged between an AP and WLC is encrypted and secured by default to provide control plane privacy and prevent Man-In-the-Middle (MITM) attacks;
+
+CAPWAP data encryption is optional and is enabled per AP;
+
+Data encryption requires a DTLS license to be installed on the WLC prior to being enabled on an AP;
+
+When enabled, all WLAN client traffic is encrypted at the AP before being forwarded to the WLC and vice versa;
+
+FlexConnect APs -
+
+FlexConnect is a wireless solution for branch office and remote office deployments;
+
+It lets you configure and control access points in a branch office from the corporate office through a WAN link, without deploying a controller in each office.
+
+There are two modes of operation for the FlexConnect AP;
+
+Connected mode - The WLC is reachable;
+
+In this mode the FlexConnect AP has CAPWAP connectivity with its WLC and can send traffic through the CAPWAP tunnel;
+
+The WLC performs all its CAPWAP functions;
+
+Standalone mode - The WLC is unreachable;
+
+The FlexConnect has lost or failed to establish CAPWAP connectivity with its WLC;
+
+In this mode, a FlexConnect AP can assume some of the WLC functions such as switching client data traffic locally and performing client authentication locally;
+
+Channel Management -
+
+Frequency Channel Saturation -
+
+Wireless LAN devices have transmitters and receivers tuned to specific frequencies of radio waves to communicate;
+
+A common practice is for frequencies to be allocated as ranges;
+
+Such ranges are then split into smaller ranges called channels;
+
+If the demand for a specific channel is too high, that channel is likely to become oversaturated;
+
+The saturation of the wireless medium degrades the quality of the communication;
+
+Over the years, a number of techniques have been created to improve wireless communication and alleviate saturation;
+
+These techniques mitigate channel saturation by using the channels in a more efficient way;
+
+Direct-Sequence Spread Spectrum (DSSS) -
+
+This is a modulation technique designed to spread a signal over a larger frequency band;
+
+Spread spectrum techniques were developed during war time to make it more difficult for enemies to intercept or jam a communication signal;
+
+It does this by spreading the signal over a wider frequency which effectively hides the discernable peak of the signal;
+
+A properly configured receiver can reverse the DSSS modulation and re-construct the original signal;
+
+DSSS is used by 802.11b devices to avoid interference from other devices using the same 2.4 GHz frequency;
+
+Frequency-Hopping Spread Spectrum (FHSS) -
+
+This relies on spread spectrum methods to communicate;
+
+It transmits radio signals by rapidly switching a carrier signal among many frequency channels;
+
+With the FHSS, the sender and receiver must be synchronized to “know” which channel to jump to;
+
+This channel hopping process allows for a more efficient usage of the channels, decreasing channel congestion;
+
+FHSS was used by the original 802.11 standard;
+
+Walkie-talkies and 900 MHz cordless phones also use FHSS, and Bluetooth uses a variation of FHSS;
+
+Orthogonal Frequency-Division Multiplexing (OFDM) -
+
+This is a subset of frequency division multiplexing in which a single channel uses multiple sub-channels on adjacent frequencies;
+
+Sub-channels in an OFDM system are precisely orthogonal to one another which allow the sub-channels to overlap without interfering;
+
+OFDM is used by a number of communication systems including 802.11a/g/n/ac;
+
+The new 802.11ax uses a variation of OFDM called Orthogonal frequency-division multiaccess (OFDMA);
+
+Channel Selection -
+
+A best practice for WLANs requiring multiple APs is to use non-overlapping channels;
+
+The 802.11b/g/n standards operate in the 2.4 GHz to 2.5 GHz spectrum;
+
+The 2.4 GHz band is subdivided into multiple channels;
+
+Each channel is allotted 22 MHz bandwidth and is separated from the next channel by 5 MHz;
+
+The 802.11b standard identifies 11 channels for North America, 13 in Europe and 14 in Japan;
+
+Note: Search the internet for 2.4 GHz channels to learn more about the variations for different countries;
+
+Interference occurs when one signal overlaps a channel reserved for another signal, causing possible distortion;
+
+The best practice for 2.4 GHz WLANs that require multiple APs is to use non-overlapping channels, although most modern APs will do this automatically;
+
+If there are three adjacent APs, use channels 1, 6, and 11;
+
+For the 5 GHz standards 802.11a/n/ac, there are 24 channels;
+
+The 5 GHz band is divided into three sections;
+
+Each channel is separated from the next channel by 20 MHz;
+
+All 24 Unlicensed National Information Infrastructure (U-NNI) 24 channels for the 5 GHz band;
+
+Although there is a slight overlap at the tails of each channel's frequency, the channels do not interfere with one another;
+
+5 GHz wireless can provide faster data transmission for wireless clients in heavily populated wireless networks because of the large amount of non-overlapping wireless channels;
+
+Note: Search the internet for 5 GHz channels to learn more about the variations for different countries;
+
+As with 2.4 GHz WLANs, choose non-interfering channels when configuring multiple 5 GHz APs that are adjacent to each other: 36, 40, 44;
+
+Plan a WLAN Deployment -
+
+The number of users supported by a WLAN depends on the geographical layout of the facility, including the number of bodies and devices that can fit in a space, the data rates users expect, 
+
+the use of non-overlapping channels by multiple APs in an ESS, and transmit power settings;
+
+When planning the location of APs, the approximate circular coverage area is important, but there are some additional recommendations:
+
+If APs are to use existing wiring or if there are locations where APs cannot be placed, note these locations on the map;
+
+Note all potential sources of interference which can include microwave ovens, wireless video cameras, fluorescent lights, motion detectors, or any other device that uses the 2.4 GHz range;
+
+Position APs above obstructions;
+
+Position APs vertically near the ceiling in the center of each coverage area, if possible;
+
+Position APs in locations where users are expected to be;
+
+Conference rooms are typically a better location for APs than a hallway;
+
+If an IEEE 802.11 network has been configured for mixed mode, the wireless clients may experience slower than normal speeds in order to support the older wireless standards;
+
+When estimating the expected coverage area of an AP, realize that this value varies depending on the WLAN standard or mix of standards that are deployed, the nature of the facility, and 
+
+the transmit power that the AP is configured for;
+
+Always consult the specifications for the AP when planning for coverage areas;
