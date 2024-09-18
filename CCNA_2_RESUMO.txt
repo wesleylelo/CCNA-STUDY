@@ -8352,3 +8352,1254 @@ The key is typically stamped on the outside of the device or its packaging as a 
 The network administrator can scan the QR code and quickly onboard the device;
 
 Although not strictly part of the WPA3 standard, DPP will replace WPS over time;
+
+Remote Site WLAN Configuration -
+
+The Wireless Router -
+
+Remote workers, small branch offices, and home networks often use a small office and home router;
+
+These routers are sometimes called an integrated router because they typically include a switch for wired clients, a port for an internet connection (sometimes labeled “WAN”), and wireless 
+
+components for wireless client access;
+
+These wireless routers typically provide WLAN security, DHCP services, integrated Name Address Translation (NAT), quality of service (QoS), as well as a variety of other features;
+
+The feature set will vary based on the router model;
+
+Note: Cable or DSL modem configuration is usually done by the service provider’s representative either on-site or remotely through a walkthrough with you on the phone;
+
+If you buy the modem, it will come with documentation for how to connect it to your service provider which will most likely include contacting your service provider for more information;
+
+Basic Wireless Setup -
+
+Today’s wireless routers configured for legacy or mixed mode most likely support 802.11a, 802.11n, and 802.11ac NICs;
+
+Assign an SSID to the WLANs;
+
+The wireless router announces its presence by sending broadcasts advertising its SSID;
+
+If the SSID broadcast is disabled, you must manually enter the SSID on each wireless device that connects to the WLAN;
+
+WPA2 personal uses a passphrase to authenticate wireless clients. WPA2 personal is easier to use in a small office or home environment because it does not require an authentication server;
+
+Larger organizations implement WPA2 enterprise and require wireless clients to authenticate with a username and password;
+
+Configure a Wireless Mesh Network -
+
+In a small office or home network, one wireless router may suffice to provide wireless access to all the clients;
+
+However, if you want to extend the range beyond approximately 45 meters indoors and 90 meters outdoors, you can add wireless access points;
+
+Extending a WLAN in a small office or home has become increasingly easier;
+
+Manufacturers have made creating a wireless mesh network (WMN) simple through smartphone apps;
+
+You buy the system, disperse the access points, plug them in, download the app, and configure your WMN in a few steps;
+
+Search the internet for “best wi-fi mesh network system” to find reviews of current offerings;
+
+NAT for IPv4 -
+
+The 209.165.201.11 IPv4 address is publicly routable on the internet;
+
+Any address with the 10 in the first octet is a private IPv4 address and cannot be routed on the internet;
+
+Therefore, the router will use a process called Network Address Translation (NAT) to convert private IPv4 addresses to internet-routable IPv4 addresses;
+
+With NAT, a private (local) source IPv4 address is translated to a public (global) address;
+
+The process is reversed for incoming packets;
+
+The router is able to translate many internal IPv4 addresses into public addresses, by using NAT;
+
+Some ISPs use private addressing to connect to customer devices;
+
+However, eventually, your traffic will leave the provider’s network and be routed on the internet;
+
+To see the IP addresses for your devices, search the internet for “what is my IP address”;
+
+Do this for other devices on the same network and you will see that they all share the same public IPv4 address;
+
+NAT makes this possible by tracking the source port numbers for every session established by a device;
+
+Quality of Service -
+
+Many wireless routers have an option for configuring Quality of Service (QoS);
+
+By configuring QoS, you can guarantee that certain traffic types, such as voice and video, are prioritized over traffic that is not as time-sensitive, such as email and web browsing;
+
+Port Forwarding -
+
+Wireless routers typically block TCP and UDP ports to prevent unauthorized access in and out of a LAN;
+
+However, there are situations when specific ports must be opened so that certain programs and applications can communicate with devices on different networks;
+
+Port forwarding is a rule-based method of directing traffic between devices on separate networks;
+
+Port triggering allows the router to temporarily forward data through inbound ports to a specific device;
+
+You can use port triggering to forward data to a computer only when a designated port range is used to make an outbound request;
+
+For example, a video game might use ports 27000 to 27100 for connecting with other players;
+
+These are the trigger ports;
+
+A chat client might use port 56 for connecting the same players so that they can interact with each other;
+
+In this instance, if there is gaming traffic on an outbound port within the triggered port range, inbound chat traffic on port 56 is forwarded to the computer that is being used to play 
+
+the video game and chat with friends;
+
+When the game is over and the triggered ports are no longer in use, port 56 is no longer allowed to send traffic of any type to this computer;
+
+Configure a Basic WLAN on the WLC -
+
+WLC Topology -
+
+The access point (AP) is a controller-based AP as opposed to an autonomous AP;
+
+Recall that controller-based APs require no initial configuration and are often called lightweight APs (LAPs);
+
+LAPs use the Lightweight Access Point Protocol (LWAPP) to communicate with a WLAN controller (WLC);
+
+Controller-based APs are useful in situations where many APs are required in the network;
+
+As more APs are added, each AP is automatically configured and managed by the WLC;
+
+Log in to the WLC -
+
+Configuring a wireless LAN controller (WLC) is not that much different from configuring a wireless router;
+
+The big difference is that a WLC controls APs and provides more services and management capabilities, many of which are beyond the scope of this module;
+
+This AP in the topology is a Cisco Aironet 1815i which means you can use the command-line and a limited set of familiar IOS commands. In the example, the network administrator pinged the default gateway, pinged the WLC, and verified the wired interface.
+
+"
+AP1# ping 192.168.200.1
+Sending 5, 100-byte ICMP Echos to 192.168.200.1, timeout is 2 seconds
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1069812.242/1071814.785/1073817.215 ms
+AP1# ping 192.168.200.254
+Sending 5, 100-byte ICMP Echos to 192.168.200.254, timeout is 2 seconds
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1055820.953/1057820.738/1059819.928 ms
+AP1# show interface wired 0
+wired0    Link encap:Ethernet  HWaddr 2C:4F:52:60:37:E8
+          inet addr:192.168.200.3  Bcast:192.168.200.255  Mask:255.255.255.255
+          UP BROADCAST RUNNING PROMISC MULTICAST  MTU:1500  Metric:1
+          RX packets:2478 errors:0 dropped:3 overruns:0 frame:0
+          TX packets:1494 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:80
+          RX bytes:207632 (202.7 KiB)  TX bytes:300872 (293.8 KiB)
+AP1#
+"
+
+Configure a WLAN -
+
+Wireless LAN Controllers have ports and interfaces;
+
+Ports are the sockets for the physical connections to the wired network;
+
+They resemble switch ports;
+
+Interfaces are virtual;
+
+They are created in software and are very similar to VLAN interfaces;
+
+In fact, each interface that will carry traffic from a WLAN is configured on the WLC as a different VLAN;
+
+The Cisco 3504 WLC can support 150 access points and 4096 VLANs, however it only has five physical ports;
+
+This means that each physical port can support many APs and WLANs;
+
+The ports on the WLC are essentially trunk ports that can carry traffic from multiple VLANs to a switch for distribution to multiple APs;
+
+Each AP can support multiple WLANs;
+
+Basic WLAN configuration on the WLC includes the following steps:
+
+- Create the WLAN
+- Apply and Enable the WLAN
+- Select the Interface
+- Secure the WLAN
+- Verify the WLAN is Operational
+- Monitor the WLAN
+- View Wireless Client Information
+
+Create the WLAN -
+
+The administrator is creating a new WLAN that will use Wireless_LAN as the name and service set identifier (SSID);
+
+The ID is an arbitrary value that is used to identify the WLAN in display output on the WLC;
+
+Apply and Enable the WLAN -
+
+After clicking Apply, the network administrator must enable the WLAN before it can be accessed by users;
+
+The Enable checkbox allows the network administrator to configure a variety of features for the WLAN, as well as additional WLANs, before enabling them for wireless client access;
+
+From here, the network administrator can configure a variety of settings for the WLAN including security, QoS, policies, and other advanced settings;
+
+Select the Interface -
+
+When you create a WLAN, you must select the interface that will carry the WLAN traffic;
+
+We will learn how to create interfaces later in this module;
+
+Secure the WLAN -
+
+Click the Security tab to access all the available options for securing the LAN;
+
+The network administrator wants to secure Layer 2 with WPA2-PSK;
+
+WPA2 and 802.1X are set by default;
+
+In the Layer 2 Security drop down box, verify that WPA+WPA2 is selected;
+
+Click PSK and enter the pre-shared key;
+
+Then click Apply;
+
+This will enable the WLAN with WPA2-PSK authentication;
+
+Wireless clients that know the pre-shared key can now associate and authenticate with the AP;
+
+Configure a WPA2 Enterprise WLAN on the WLC -
+
+SNMP and RADIUS -
+
+PC-A is running Simple Network Management Protocol (SNMP) and Remote Authentication Dial-In User Service (RADIUS) server software;
+
+SNMP is used to monitor the network;
+
+The network administrator wants the WLC to forward all SNMP log messages, called traps, to the SNMP server;
+
+In addition, for WLAN user authentication, the network administrator wants to use a RADIUS server for authentication, authorization, and accounting (AAA) services;
+
+Instead of entering a publicly known pre-shared key to authenticate, as they do with WPA2-PSK, users will enter their own username and password credentials;
+
+The credentials will be verified by the RADIUS server;
+
+This way, individual user access can be tracked and audited if necessary and user accounts can be added or modified from a central location;
+
+The RADIUS server is required for WLANs that are using WPA2 Enterprise authentication;
+
+Configure SNMP Server Information -
+
+Click the MANAGEMENT tab to access a variety of management features;
+
+SNMP is listed at the top of the menu on the left;
+
+Click SNMP to expand the sub-menus, and then click Trap Receivers;
+
+Click New... to configure a new SNMP trap receiver;
+
+Enter the SNMP Community name and the IP address (IPv4 or IPv6) for the SNMP server;
+
+Click Apply;
+
+The WLC will now forward SNMP log messages to the SNMP server;
+
+Configure RADIUS Server Information -
+
+In our example configuration, the network administrator wants to configure a WLAN using WPA2 Enterprise, as opposed to WPA2 Personal or WPA2 PSK;
+
+Authentication will be handled by the RADIUS server running on PC-A;
+
+To configure the WLC with the RADIUS server information, click the SECURITY tab > RADIUS > Authentication;
+
+No RADIUS servers are currently configured;
+
+Click New... to add PC-A as the RADIUS server;
+
+Enter the IPv4 address for PC-A and the shared secret;
+
+This is the password used between the WLC and the RADIUS server;
+
+It is not for users;
+
+Click Apply;
+
+Topology with VLAN 5 Addressing -
+
+Each WLAN configured on the WLC needs its own virtual interface;
+
+The WLC has five physical ports for data traffic;
+
+Each physical port can be configured to support multiple WLANs, each on its own virtual interface;
+
+Physical ports can also be aggregated to create high-bandwidth links;
+
+The network administrator has decided that the new WLAN will use interface VLAN 5 and network 192.168.5.0/24;
+
+R1 already has a subinterface configured and active for VLAN 5;
+
+"
+R1# show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            172.16.1.1      YES manual up                    up
+FastEthernet0/1            unassigned      YES unset  up                    up
+FastEthernet0/1.1          192.168.200.1   YES manual up                    up
+FastEthernet0/1.5          192.168.5.1     YES manual up                    up
+(output omitted)
+R1#
+"
+
+Configure a New Interface -
+
+VLAN interface configuration on the WLC includes the following steps:
+
+- Create a new interface;
+- Configure the VLAN name and ID;
+- Configure the port and interface address;
+- Configure the DHCP server address;
+- Apply and Confirm;
+- Verify Interfaces;
+
+Create a new interface -
+
+To add a new interface, click CONTROLLER > Interfaces > New...;
+
+Configure the VLAN name and ID;
+
+The network administrator configures the interface name as vlan5 and the VLAN ID as 5;
+
+Clicking Apply will create the new interface;
+
+Configure the port and interface address 
+
+On the Edit page for the interface, configure the physical port number;
+
+G1 in the topology is Port Number 1 on the WLC;
+
+Then configure the VLAN 5 interface addressing;
+
+VLAN 5 is assigned IPv4 address 192.168.5.254/24;
+
+R1 is the default gateway at IPv4 address 192.168.5.1;
+
+Configure the DHCP server address -
+
+In larger enterprises, WLCs will be configured to forward DHCP messages to a dedicated DHCP server;
+
+The primary DHCP server as IPv4 address 192.168.5.1;
+
+This is the default gateway router address;
+
+The router is configured with a DHCP pool for the WLAN network;
+
+As hosts join the WLAN that is associated with the VLAN 5 interface, they will receive addressing information from this pool;
+
+Configure a DHCP Scope -
+
+DHCP scope configuration includes the following steps:
+
+Create a new DHCP scope;
+Name the DHCP scope;
+Verify the new DHCP scope;
+Configure and enable the new DHCP scope;
+Verify the enable DHCP scope;
+
+1. Create a new DHCP scope;
+
+A DHCP scope is very similar to a DHCP pool on a router;
+
+It can include a variety of information including a pool of addresses to assign to DHCP clients, DNS server information, lease times, and more;
+
+To configure a new DHCP scope, click Internal DHCP Server > DHCP Scope > New...
+
+2. Name the DHCP scope;
+
+On the next screen, name the scope;
+
+Because this scope will apply to the wireless management network, the network administrator uses Wireless_Management as the Scope Name and clicks Apply;
+
+3. Verify the new DHCP scope;
+
+You are returned to the DHCP Scopes page and can verify the scope is ready to be configured;
+
+Click the new Scope Name to configure the DHCP scope;
+
+4. Configure and enable the new DHCP scope;
+
+On the Edit screen for the Wireless_Management scope, configure a pool of addresses for the 192.168.200.0/24 network starting at .240 and ending at .249;
+
+The network address and subnet mask are configured;
+
+The default router IPv4 address is configured, which is the subinterface for R1 at 192.168.200.1;
+
+The rest of the scope is left unchanged;
+
+The network administrator selects Enabled from the Status drop down and clicks Apply;
+
+Configure a WPA2 Enterprise WLAN -
+
+By default, all newly created WLANs on the WLC will use WPA2 with Advanced Encryption System (AES);
+
+802.1X is the default key management protocol used to communicate with the RADIUS server;
+
+Because the network administrator already configured the WLC with the IPv4 address of the RADIUS server running on PC-A, the only configuration left to do is to create a new WLAN to use 
+
+interface vlan5;
+
+Configuring a new WLAN on the WLC includes the following steps:
+
+Create a new WLAN;
+Configure the WLAN name and SSID;
+Enable the WLAN for VLAN 5;
+Verify AES and 802.1X defaults;
+Configure WLAN security to use the RADIUS server;
+Verify the new WLAN is available;
+
+1. Create a new WLAN;
+
+Click the WLANs tab and then Go to create a new WLAN;
+
+2. Configure the WLAN name and SSID;
+
+Fill in the profile name and SSID;
+
+In order to be consistent with the VLAN that was previously configured, choose an ID of 5;
+
+However, any available value can be used;
+
+Click Apply to create the new WLAN;
+
+3. Enable the WLAN for VLAN 5;
+
+The WLAN is created but it still needs to be enabled and associated with the correct VLAN interface;
+
+Change the status to Enabled and choose vlan5 from the Interface/Interface Group(G) dropdown list;
+
+Click Apply and click OK to accept the popup message;
+
+4. Verify AES and 802.1X defaults;
+
+Click the Security tab to view the default security configuration for the new WLAN;
+
+The WLAN will use WPA2 security with AES encryption;
+
+Authentication traffic is handled by 802.1X between the WLC and the RADIUS server;
+
+5. Configure the RADIUS server;
+
+We now need to select the RADIUS server that will be used to authenticate users for this WLAN;
+
+Click the AAA Servers tab;
+
+In the dropdown box select the RADIUS server that was configured on the WLC previously;
+
+Apply your changes;
+
+Troubleshoot WLAN Issues -
+
+Troubleshooting Approaches -
+
+Network problems can be simple or complex, and can result from a combination of hardware, software, and connectivity issues;
+
+Technicians must be able to analyze the problem and determine the cause of the error before they can resolve the network issue;
+
+This process is called troubleshooting;
+
+Troubleshooting any sort of network problem should follow a systematic approach;
+
+A common and efficient troubleshooting methodology is based on the scientific method and can be broken into the six main steps;
+
+Step	Title					Description
+
+1	Identify the Problem			The first step in the troubleshooting process is to identify the problem;
+						While tools can be used in this step, a conversation with the user is often very helpful;
+
+2	Establish a Theory of Probable Causes	After you have talked to the user and identified the problem, you can try and establish a theory of probable causes;
+						This step often yields more than a few probable causes to the problem;
+
+3	Test the Theory to Determine Cause	Based on the probable causes, test your theories to determine which one is the cause of the problem;
+						A technician will often apply a quick procedure to test and see if it solves the problem;
+						If a quick procedure does not correct the problem, you might need to research the problem further to establish the exact cause;
+
+4	Establish a Plan of Action to Resolve	After you have determined the exact cause of the problem, establish a plan of action to resolve the problem and implement the solution.
+	the Problem and Implement the Solution
+
+5	Verify Full System Functionality	After you have corrected the problem, verify full functionality and, if applicable, implement preventive measures;
+	and Implement Preventive Measures
+
+6	Document Findings, Actions,		In the final step of the troubleshooting process, document your findings, actions, and outcomes;
+	and Outcomes				This is very important for future reference;
+
+To assess the problem, determine how many devices on the network are experiencing the problem;
+
+If there is a problem with one device on the network, start the troubleshooting process at that device;
+
+If there is a problem with all devices on the network, start the troubleshooting process at the device where all other devices are connected;
+
+You should develop a logical and consistent method for diagnosing network problems by eliminating one problem at a time;
+
+
+Wireless Client Not Connecting -
+
+When troubleshooting a WLAN, a process of elimination is recommended;
+
+A wireless client is not connecting to the WLAN;
+
+If there is no connectivity, check the following:
+
+Confirm the network configuration on the PC using the ipconfig command;
+
+Verify that the PC has received an IP address via DHCP or is configured with a static IP address;
+
+Confirm that the device can connect to the wired network;
+
+Connect the device to the wired LAN and ping a known IP address;
+
+If necessary, reload drivers as appropriate for the client;
+
+It may be necessary to try a different wireless NIC;
+
+If the wireless NIC of the client is working, check the security mode and encryption settings on the client;
+
+If the security settings do not match, the client cannot gain access to the WLAN;
+
+If the PC is operational but the wireless connection is performing poorly, check the following:
+
+How far is the PC from an AP? Is the PC out of the planned coverage area (BSA)?
+
+Check the channel settings on the wireless client;
+
+The client software should detect the appropriate channel as long as the SSID is correct;
+
+Check for the presence of other devices in the area that may be interfering with the 2.4 GHz band;
+
+Examples of other devices are cordless phones, baby monitors, microwave ovens, wireless security systems, and potentially rogue APs;
+
+Data from these devices can cause interference in the WLAN and intermittent connection problems between a wireless client and AP;
+
+Next, ensure that all the devices are actually in place;
+
+Consider a possible physical security issue;
+
+Is there power to all devices and are they powered on?
+
+Finally, inspect links between cabled devices looking for bad connectors or damaged or missing cables;
+
+If the physical plant is in place, verify the wired LAN by pinging devices, including the AP;
+
+If connectivity still fails at this point, perhaps something is wrong with the AP or its configuration;
+
+When the user PC is eliminated as the source of the problem, and the physical status of devices is confirmed, begin investigating the performance of the AP;
+
+Check the power status of the AP;
+
+Troubleshooting When the Network Is Slow -
+
+To optimize and increase the bandwidth of 802.11 dual-band routers and APs, either:
+
+Upgrade your wireless clients - Older 802.11b, 802.11g, and even 802.11n devices can slow the entire WLAN;
+
+For the best performance, all wireless devices should support the same highest acceptable standard;
+
+Although 802.11ax was released in 2019, 802.11ac is most likely that highest standard that enterprises can currently enforce;
+
+Split the traffic - The easiest way to improve wireless performance is to split the wireless traffic between the 802.11n 2.4 GHz band and the 5 GHz band;
+
+Therefore, 802.11n (or better) can use the two bands as two separate wireless networks to help manage the traffic;
+
+For example, use the 2.4 GHz network for basic internet tasks, such as web browsing, email, and downloads, and use the 5 GHz band for streaming multimedia;
+
+There are several reasons for using a split-the-traffic approach:
+
+The 2.4 GHz band may be suitable for basic Internet traffic that is not time-sensitive;
+
+The bandwidth may still be shared with other nearby WLANs;
+
+The 5 GHz band is much less crowded than the 2.4 GHz band; ideal for streaming multimedia;
+
+The 5 GHz band has more channels; therefore, the channel chosen is likely interference-free;
+
+By default, dual-band routers and APs use the same network name on both the 2.4 GHz band and the 5 GHz band;
+
+The simplest way to segment traffic is to rename one of the wireless networks;
+
+With a separate, descriptive name, it is easier to connect to the right network;
+
+To improve the range of a wireless network, ensure the wireless router or AP location is free of obstructions, such as furniture, fixtures, and tall appliances;
+
+These block the signal, which shortens the range of the WLAN;
+
+If this still does not solve the problem, then a Wi-Fi Range Extender or deploying the Powerline wireless technology may be used;
+
+Updating Firmware -
+
+Most wireless routers and APs offer upgradable firmware;
+
+Firmware releases may contain fixes for common problems reported by customers as well as security vulnerabilities;
+
+You should periodically check the router or AP for updated firmware;
+
+On a Cisco 3504 Wireless Controller, Click the WIRELESS tab > Access Points from the left menu > Global Configuration submenu;
+
+Then scroll to the bottom of the page for the AP Image Pre-download section;
+
+Users will be disconnected from the WLAN and the internet until the upgrade finishes;
+
+The wireless router may need to reboot several times before normal network operations are restored;
+
+
+Path Determination
+
+Two Functions of Router -
+
+Before a router forwards a packet anywhere, it has to determine the best path for the packet to take;
+
+Ethernet switches are used to connect end devices and other intermediary devices, such as other Ethernet switches, to the same network;
+
+A router connects multiple networks, which means that it has multiple interfaces that each belong to a different IP network;
+
+When a router receives an IP packet on one interface, it determines which interface to use to forward the packet to the destination;
+
+This is known as routing;
+
+The interface that the router uses to forward the packet may be the final destination, or it may be a network connected to another router that is used to reach the destination network;
+
+Each network that a router connects to typically requires a separate interface, but this may not always be the case;
+
+The primary functions of a router are to determine the best path to forward packets based on the information in its routing table, and to forward packets toward their destination;
+
+Best Path Equals Longest Match -
+
+What is meant by the router must determine the best path in the routing table? The best path in the routing table is also known as the longest matc;
+
+The longest match is a process the router uses to find a match between the destination IP address of the packet and a routing entry in the routing table;
+
+The routing table contains route entries consisting of a prefix (network address) and prefix length;
+
+For there to be a match between the destination IP address of a packet and a route in the routing table, a minimum number of far-left bits must match between the IP address of the packet 
+
+and the route in the routing table;
+
+The prefix length of the route in the routing table is used to determine the minimum number of far-left bits that must match;;
+
+Remember that an IP packet only contains the destination IP address and not the prefix length;
+
+The longest match is the route in the routing table that has the greatest number of far-left matching bits with the destination IP address of the packet;
+
+The route with the greatest number of equivalent far-left bits, or the longest match, is always the preferred route;
+
+Note: The term prefix length will be used to refer to the network portion of both IPv4 and IPv6 addresses;
+
+IPv4 Address Longest Match Example -
+
+An IPv4 packet has the destination IPv4 address 172.16.0.10;
+
+The router has three route entries in its IPv4 routing table that match this packet: 172.16.0.0/12, 172.16.0.0/18, and 172.16.0.0/26;
+
+Of the three routes, 172.16.0.0/26 has the longest match and would be chosen to forward the packet;
+
+Remember, for any of these routes to be considered a match there must be at least the number of matching bits indicated by the subnet mask of the route;
+
+IPv6 Address Longest Match Example -
+
+An IPv6 packet has the destination IPv6 address 2001:db8:c000::99;
+
+This example shows three route entries, but only two of them are a valid match, with one of those being the longest match;
+
+The first two route entries have prefix lengths that have the required number of matching bits as indicated by the prefix length;
+
+The first route entry with a prefix length of /40 matches the 40 far-left bits in the IPv6 address;
+
+The second route entry has a prefix length of /48 and with all 48 bits matching the destination IPv6 address, and is the longest match;
+
+The third route entry is not a match because its /64 prefix requires 64 matching bits;
+
+For the prefix 2001:db8:c000:5555::/64 to be a match, the first 64 bits must the destination IPv6 address of the packet;
+
+Only the first 48 bits match, so this route entry is not considered a match;
+
+Build the Routing Table -
+
+A routing table consists of prefixes and their prefix lengths;
+
+But how does the router learn about these networks?
+
+Directly Connected Networks
+
+Directly connected networks are networks that are configured on the active interfaces of a router;
+
+A directly connected network is added to the routing table when an interface is configured with an IP address and subnet mask (prefix length) and is active (up and up);
+
+Remote Networks
+
+Remote networks are networks that are not directly connected to the router;
+
+Routers learn about remote networks in two ways:
+
+Static routes - Added to the routing table when a route is manually configured;
+
+Dynamic routing protocols - Added to the routing table when routing protocols dynamically learn about the remote network;
+
+Dynamic routing protocols include Enhanced Interior Gateway Routing Protocol (EIGRP), Open Shortest Path First (OSPF), as well as several others;
+
+Default Route
+
+A default route specifies a next-hop router to use when the routing table does not contain a specific route that matches the destination IP address;
+
+The default route can be entered manually as a static route or learned automatically from a dynamic routing protocol;
+
+A default route over IPv4 has a route entry of 0.0.0.0/0 and a default route over IPv6 has a route entry of ::/0;
+
+The /0 prefix length indicates that zero bits or no bits need to match the destination IP address for this route entry to be used;
+
+If there are no routes with a longer match, more than 0 bits, then the default route is used to forward the packet;
+
+The default route is sometimes referred to as a gateway of last resort;
+
+Packet Forwarding -
+
+Packet Forwarding Decision Process -
+
+Now that the router has determined the best path for a packet based on the longest match, it must determine how to encapsulate the packet and forward it out the correct egress interface;
+
+The data link frame with an encapsulated IP packet arrives on the ingress interface;
+
+The router examines the destination IP address in the packet header and consults its IP routing table;;
+
+The router finds the longest matching prefix in the routing table;
+
+The router encapsulates the packet in a data link frame and forwards it out the egress interface;
+
+The destination could be a device connected to the network or a next-hop router;
+
+However, if there is no matching route entry the packet is dropped;
+
+Forwards the Packet to a Device on a Directly Connected Network -
+
+If the route entry indicates that the egress interface is a directly connected network, this means that the destination IP address of the packet belongs to a device on the directly 
+
+connected network;
+
+Therefore, the packet can be forwarded directly to the destination device;
+
+The destination device is typically an end device on an Ethernet LAN, which means the packet must be encapsulated in an Ethernet frame;
+
+To encapsulate the packet in the Ethernet frame, the router needs to determine the destination MAC address associated with the destination IP address of the packet;
+
+The process varies based on whether the packet is an IPv4 or IPv6 packet:
+
+IPv4 packet - The router checks its ARP table for the destination IPv4 address and an associated Ethernet MAC address;
+
+If there is no match, the router sends an ARP Request;
+
+The destination device will return an ARP Reply with its MAC address;
+
+The router can now forward the IPv4 packet in an Ethernet frame with the proper destination MAC address;
+
+IPv6 packet - The router checks its neighbor cache for the destination IPv6 address and an associated Ethernet MAC address;;
+
+If there is no match, the router sends an ICMPv6 Neighbor Solicitation (NS) message;
+
+The destination device will return an ICMPv6 Neighbor Advertisement (NA) message with its MAC address;
+
+The router can now forward the IPv6 packet in an Ethernet frame with the proper destination MAC address;
+
+Forwards the Packet to a Next-Hop Router 
+
+If the route entry indicates that the destination IP address is on a remote network, this means the destination IP address of the packet belongs to a device on network that is not directly connected;
+
+Therefore, the packet must be forwarded to another router, specifically a next-hop router;
+
+The next-hop address is indicated in the route entry;
+
+If the forwarding router and the next-hop router are on an Ethernet network, a similar process (ARP and ICMPv6 Neighbor Discovery) will occur for determining the destination MAC address of 
+
+the packet as described previously;
+
+The difference is that the router will search for the IP address of the next-hop router in its ARP table or neighbor cache, instead of the destination IP address of the packet;
+
+Note: This process will vary for other types of Layer 2 networks;
+
+Drops the Packet - No Match in Routing Table
+
+If there is no match between the destination IP address and a prefix in the routing table, and if there is no default route, the packet will be dropped;
+
+End-to-End Packet Forwarding -
+
+The primary responsibility of the packet forwarding function is to encapsulate packets in the appropriate data link frame type for the outgoing interface;
+
+For example, the data link frame format for a serial link could be Point-to-Point (PPP) protocol, High-Level Data Link Control (HDLC) protocol, or some other Layer 2 protocol;
+
+PC1 Sends Packet to PC2 -
+
+PC1 sends a packet to PC2;
+
+Since PC2 is on a different network, PC1 will forward the packet to its default gateway;
+
+PC1 will look in its ARP cache for the MAC address of the default gateway and add the indicated frame information;
+
+Note: If an ARP entry does not exist in the ARP table for the default gateway of 192.168.1.1, PC1 sends an ARP request;
+
+Router R1 would then return an ARP reply with its MAC address;
+
+R1 Forwards the Packet to PC2 -
+
+R1 now forwards the packet to PC2;
+
+Because the exit interface is on an Ethernet network, R1 must resolve the next-hop IPv4 address with a destination MAC address using its ARP table;
+
+If an ARP entry does not exist in the ARP table for the next-hop interface of 192.168.2.2, R1 sends an ARP request;
+
+R2 would then return an ARP Reply;
+
+R2 Forwards the Packet to R3 -
+
+R2 now forwards the packet to R3;
+
+Because the exit interface is not an Ethernet network, R2 does not have to resolve the next-hop IPv4 address with a destination MAC address;
+
+When the interface is a point-to-point (P2P) serial connection, the router encapsulates the IPv4 packet into the proper data link frame format used by the exit interface (HDLC, PPP, etc.); 
+
+Because there are no MAC addresses on serial interfaces, R2 sets the data link destination address to an equivalent of a broadcast;
+
+R3 Forwards the Packet to PC2 -
+
+R3 now forwards the packet to PC2;
+
+Because the destination IPv4 address is on a directly connected Ethernet network, R3 must resolve the destination IPv4 address of the packet with its associated MAC address;
+
+If the entry is not in the ARP table, R3 sends an ARP request out of its FastEthernet 0/0 interface;
+
+PC2 would then return an ARP reply with its MAC address;
+
+Packet Forwarding Mechanisms -
+
+As mentioned previously, the primary responsibility of the packet forwarding function is to encapsulate packets in the appropriate data link frame type for the outgoing interface;
+
+The more efficiently a router can perform this task, the faster packets can be forwarded by the router;
+
+Routers support the following three packet forwarding mechanisms:
+
+Process switching;
+
+Fast switching;
+
+Cisco Express Forwarding (CEF);
+
+Process Switching
+
+An older packet forwarding mechanism still available for Cisco routers;
+
+When a packet arrives on an interface, it is forwarded to the control plane where the CPU matches the destination address with an entry in its routing table, and then determines the exit 
+
+interface and forwards the packets;
+
+It is important to understand that the router does this for every packet, even if the destination is the same for a stream of packets;
+
+This process-switching mechanism is very slow and is rarely implemented in modern networks;
+
+Contrast this with fast switching;
+
+Fast Switching -
+
+Fast switching is another, older packet forwarding mechanism which was the successor to process switching;
+
+Fast switching uses a fast-switching cache to store next-hop information;
+
+When a packet arrives on an interface, it is forwarded to the control plane where the CPU searches for a match in the fast-switching cache;
+
+If it is not there, it is process-switched and forwarded to the exit interface;
+
+The flow information for the packet is also stored in the fast-switching cache;
+
+If another packet going to the same destination arrives on an interface, the next-hop information in the cache is re-used without CPU intervention;
+
+With fast switching, notice how only the first packet of a flow is process-switched and added to the fast-switching cache;
+
+The next four packets are quickly processed based on the information in the fast-switching cache;
+
+Cisco Express Forwarding (CEF) -
+
+CEF is the most recent and default Cisco IOS packet-forwarding mechanism;
+
+Like fast switching, CEF builds a Forwarding Information Base (FIB), and an adjacency table;
+
+However, the table entries are not packet-triggered like fast switching but change-triggered, such as when something changes in the network topology;
+
+Therefore, when a network has converged, the FIB and adjacency tables contain all the information that a router would have to consider when forwarding a packet;
+
+Cisco Express Forwarding is the fastest forwarding mechanism and the default on Cisco routers and multilayer switches;
+
+CEF builds the FIB and adjacency tables after the network has converged;
+
+All five packets are quickly processed in the data plane;
+
+
+
+
+Basic Router Configuration Review -
+
+Configuration Commands -
+
+"
+Router> enable
+Router# configure terminal
+Enter configuration commands, one per line. End with CNTL/Z.
+Router(config)# hostname R1
+R1(config)# enable secret class 
+R1(config)# line console 0  
+R1(config-line)# logging synchronous
+R1(config-line)# password cisco 
+R1(config-line)# login 
+R1(config-line)# exit 
+R1(config)# line vty 0 4 
+R1(config-line)# password cisco 
+R1(config-line)# login 
+R1(config-line)# transport input ssh telnet 
+R1(config-line)# exit 
+R1(config)# service password-encryption 
+R1(config)# banner motd #
+Enter TEXT message. End with a new line and the #
+***********************************************
+WARNING: Unauthorized access is prohibited!
+***********************************************
+#
+R1(config)# ipv6 unicast-routing
+R1(config)# interface gigabitethernet 0/0/0
+R1(config-if)# description Link to LAN 1
+R1(config-if)# ip address 10.0.1.1 255.255.255.0 
+R1(config-if)# ipv6 address 2001:db8:acad:1::1/64 
+R1(config-if)# ipv6 address fe80::1:a link-local
+R1(config-if)# no shutdown
+R1(config-if)# exit
+R1(config)# interface gigabitethernet 0/0/1
+R1(config-if)# description Link to LAN 2
+R1(config-if)# ip address 10.0.2.1 255.255.255.0 
+R1(config-if)# ipv6 address 2001:db8:acad:2::1/64 
+R1(config-if)# ipv6 address fe80::1:b link-local
+R1(config-if)# no shutdown
+R1(config-if)# exit
+R1(config)# interface serial 0/1/1
+R1(config-if)# description Link to R2
+R1(config-if)# ip address 10.0.3.1 255.255.255.0 
+R1(config-if)# ipv6 address 2001:db8:acad:3::1/64 
+R1(config-if)# ipv6 address fe80::1:c link-local
+R1(config-if)# no shutdown
+R1(config-if)# exit
+R1# copy running-config startup-config 
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+R1#
+"
+
+Verification Commands -
+Common verification commands include the following:
+
+show ip interface brief;
+show running-config interface interface-type number;
+show interfaces;
+show ip interface;
+show ip route;
+ping;
+
+"
+R1# show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   10.0.1.1        YES manual up                    up
+GigabitEthernet0/0/1   10.0.2.1        YES manual up                    up
+Serial0/1/0            unassigned      YES unset  administratively down down
+Serial0/1/1            10.0.3.1        YES manual up                    up
+GigabitEthernet0       unassigned      YES unset  down                  down
+R1#
+"
+"
+R1# show ipv6 interface brief
+GigabitEthernet0/0/0   [up/up]
+    FE80::1:A
+    2001:DB8:ACAD:1::1
+GigabitEthernet0/0/1   [up/up]
+    FE80::1:B
+    2001:DB8:ACAD:2::1
+Serial0/1/0            [administratively down/down]
+    unassigned
+Serial0/1/1            [up/up]
+    FE80::1:C
+    2001:DB8:ACAD:3::1
+GigabitEthernet0       [down/down]
+    unassigned
+R1#
+"
+"
+R1# show running-config interface gigabitethernet 0/0/0
+Building configuration...
+Current configuration : 189 bytes
+!
+interface GigabitEthernet0/0/0
+ description Link to LAN 1
+ ip address 10.0.1.1 255.255.255.0
+ negotiation auto
+ ipv6 address FE80::1:A link-local
+ ipv6 address 2001:DB8:ACAD:1::1/64
+end
+R1#
+"
+"
+R1# show interfaces gigabitEthernet 0/0/0
+GigabitEthernet0/0/0 is up, line protocol is up
+  Hardware is ISR4321-2x1GE, address is a0e0.af0d.e140 (bia a0e0.af0d.e140)
+  Internet address is 10.0.1.1/24
+  MTU 1500 bytes, BW 100000 Kbit/sec, DLY 100 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive not supported
+  Full Duplex, 100Mbps, link type is auto, media type is RJ45
+  output flow-control is off, input flow-control is off
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:00, output 00:00:06, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/375/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/40 (size/max)
+  5 minute input rate 2000 bits/sec, 1 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     57793 packets input, 10528767 bytes, 0 no buffer
+     Received 19711 broadcasts (0 IP multicasts)
+     0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 watchdog, 36766 multicast, 0 pause input
+     10350 packets output, 1280030 bytes, 0 underruns
+     0 output errors, 0 collisions, 1 interface resets
+     0 unknown protocol drops
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier, 0 pause output
+     0 output buffer failures, 0 output buffers swapped out
+R1#
+"
+"
+R1# show ip interface gigabitethernet 0/0/0
+GigabitEthernet0/0/0 is up, line protocol is up
+  Internet address is 10.0.1.1/24
+  Broadcast address is 255.255.255.255
+  Address determined by setup command
+  MTU is 1500 bytes
+  Helper address is not set
+  Directed broadcast forwarding is disabled
+  Multicast reserved groups joined: 224.0.0.5 224.0.0.6
+  Outgoing Common access list is not set
+  Outgoing access list is not set
+  Inbound Common access list is not set
+  Inbound  access list is not set
+  Proxy ARP is enabled
+  Local Proxy ARP is disabled
+  Security level is default
+  Split horizon is enabled
+  ICMP redirects are always sent
+  ICMP unreachables are always sent
+  ICMP mask replies are never sent
+  IP fast switching is enabled
+  IP Flow switching is disabled
+  IP CEF switching is enabled
+  IP CEF switching turbo vector
+  IP Null turbo vector
+  Associated unicast routing topologies:
+        Topology "base", operation state is UP
+  IP multicast fast switching is enabled
+  IP multicast distributed fast switching is disabled
+  IP route-cache flags are Fast, CEF
+  Router Discovery is disabled
+  IP output packet accounting is disabled
+  IP access violation accounting is disabled
+  TCP/IP header compression is disabled
+  RTP/IP header compression is disabled
+  Probe proxy name replies are disabled
+  Policy routing is disabled
+  Network address translation is disabled
+  BGP Policy Mapping is disabled
+  Input features: MCI Check
+  IPv4 WCCP Redirect outbound is disabled
+  IPv4 WCCP Redirect inbound is disabled
+  IPv4 WCCP Redirect exclude is disabled
+R1#
+"
+"
+
+
+
+
+
+"
+"
+Which authentication method stores usernames and passwords in the router and is ideal for small networks?
+
+In a small network with a few network devices, AAA authentication can be implemented with the local database and with usernames and passwords stored on the network devices;
+
+Authentication using the TACACS+ or RADIUS protocol will require dedicated ACS servers although this authentication solution scales well in a large network;
+
+
+Which feature on a switch makes it vulnerable to VLAN hopping attacks?
+
+A VLAN hopping attack enables traffic from one VLAN to be seen by another VLAN without routing;
+
+In a basic VLAN hopping attack, the attacker takes advantage of the automatic trunking port feature enabled by default on most switch ports;
+
+
+
+Which feature or configuration on a switch makes it vulnerable to VLAN double-tagging attacks?
+
+
+A double-tagging (or double-encapsulated) VLAN hopping attack takes advantage of the way that hardware on most switches operates;
+
+Most switches perform only one level of 802.1Q de-encapsulation, which allows an attacker to embed a hidden 802.1Q tag inside the frame;
+
+This tag allows the frame to be forwarded to a VLAN that the original 802.1Q tag did not specify;
+
+An important characteristic of the double-encapsulated VLAN hopping attack is that it works even if trunk ports are disabled, because a host typically sends a frame on a segment that is 
+
+not a trunk link;
+
+This type of attack is unidirectional and works only when the attacker is connected to a port residing in the same VLAN as the native VLAN of the trunk port;
+
+
+
+What device is considered a supplicant during the 802.1X authentication process?
+
+The devices involved in the 802.1X authentication process are as follows:
+
+The supplicant, which is the client that is requesting network access;
+
+The authenticator, which is the switch that the client is connecting to and that is actually controlling physical network access;
+
+The authentication server, which performs the actual authentication;
+
+
+A network administrator enters the following commands on the switch SW1.
+
+SW1(config)# interface range fa0/5 – 10
+SW1(config-if)# ip dhcp snooping limit rate 6
+
+What is the effect after these commands are entered?
+
+When DHCP snooping is being configured, the number of DHCP discovery messages that untrusted ports can receive per second should be rate-limited by using the ip dhcp snooping limit rate 
+
+interface configuration command;
+
+When a port receives more messages than the rate allows, the extra messages will be dropped;
+
+A network administrator is configuring DAI on a switch with the command ip arp inspection validate src-mac . What is the purpose of this configuration command?
+
+DAI can be configured to check for both destination or source MAC and IP addresses:
+
+Destination MAC - Checks the destination MAC address in the Ethernet header against the target MAC address in the ARP body;
+
+Source MAC - Checks the source MAC address in the Ethernet header against the sender MAC address in the ARP body;
+
+IP address - Checks the ARP body for invalid and unexpected IP addresses including addresses 0.0.0.0, 255.255.255.255, and all IP multicast addresses;
+
+
+Which two commands can be used to enable BPDU guard on a switch? (Choose two.)
+
+BPDU guard can be enabled on all PortFast-enabled ports by using the spanning-tree portfast bpduguard default global configuration command;
+
+Alternatively, BPDU guard can be enabled on a PortFast-enabled port through the use of the spanning-tree bpduguard enable interface configuration command;
+
+
+
+As part of the new security policy, all switches on the network are configured to automatically learn MAC addresses for each port. All running configurations are saved at the start and close of every business day. A severe thunderstorm causes an extended power outage several hours after the close of business. When the switches are brought back online, the dynamically learned MAC addresses are retained. Which port security configuration enabled this?
+
+With sticky secure MAC addressing, the MAC addresses can be either dynamically learned or manually configured and then stored in the address table and added to the running configuration 
+
+file;
+
+In contrast, dynamic secure MAC addressing provides for dynamically learned MAC addressing that is stored only in the address table;
+
+
+
+Which wireless network topology would be used by network engineers to provide a wireless network for an entire college building?
+
+
+Ad hoc mode (also known as independent basic service set or IBSS) is used in a peer-to-peer wireless network such as when Bluetooth is used;
+
+A variation of the ad hoc topology exists when a smart phone or tablet with cellular data access is enabled to create a personal wireless hotspot;
+
+Mixed mode allows older wireless NICs to attach to an access point that can use a newer wireless standard;
+
+
+
+On a Cisco 3504 WLC Summary page ( Advanced > Summary ), which tab allows a network administrator to access and configure a WLAN for a specific security option such as WPA2?
+
+The WLANs tab in the Cisco 3504 WLC advanced Summary page allows a user to access the configuration of WLANs including security, QoS, and policy-mapping;
+
+
+
+
+A network administrator deploys a wireless router in a small law firm. Employee laptops join the WLAN and receive IP addresses in the 10.0.10.0/24 network. Which service is used on the wireless router to allow the employee laptops to access the internet?
+
+Any address with the 10 in the first octet is a private IPv4 address and cannot be routed on the internet;
+
+The wireless router will use a service called Network Address Translation (NAT) to convert private IPv4 addresses to internet-routable IPv4 addresses for wireless devices to gain access to 
+
+the internet;
+
+
+
+A laptop cannot connect to a wireless access point. Which two troubleshooting steps should be taken first? (Choose two.)
+
+A wireless laptop normally does not have an antenna attached unless a repair has recently been implemented;
+
+If the wireless NIC is enabled, the correct media, radio, will be used;
+
+When the NIC detects an access point, the correct frequency is automatically used;
+
+
+
+Which two Cisco solutions help prevent DHCP starvation attacks? (Choose two.)
+
+Cisco provides solutions to help mitigate Layer 2 attacks including these:
+
+IP Source Guard (IPSG) - prevents MAC and IP address spoofing attacks;
+
+Dynamic ARP Inspection (DAI) - prevents ARP spoofing and ARP poisoning attacks;
+
+DHCP Snooping - prevents DHCP starvation and SHCP spoofing attacks;
+
+Port Security - prevents many types of attacks including MAC table overflow attacks and DHCP starvation attacks;
+
+Web Security Appliance (WSA) is a mitigation technology for web-based threats;
+
+
+
+
+Refer to the exhibit. What can be determined about port security from the information that is shown?
+
+The Port Security line simply shows a state of Enabled if the switchport port-security command (with no options) has been entered for a particular switch port;
+
+If a port security violation had occurred, a different error message appears such as Secure-shutdown;
+
+The maximum number of MAC addresses supported is 50;
+
+The Maximum MAC Addresses line is used to show how many MAC addresses can be learned (2 in this case);
+
+The Sticky MAC Addresses line shows that only one device has been attached and learned automatically by the switch;
+
+This configuration could be used when a port is shared by two cubicle-sharing personnel who bring in separate laptops;
+
+
+
+A technician is troubleshooting a slow WLAN that consists of 802.11b and 802.11g devices . A new 802.11n/ac dual-band router has been deployed on the network to replace the old 802.11g router. What can the technician do to address the slow wireless speed?
+
+Splitting the wireless traffic between the 802.11n 2.4 GHz band and the 5 GHz band will allow for the 802.11n to use the two bands as two separate wireless networks to help manage the 
+
+traffic, thus improving wireless performance;
+
+
+
+
+Open the PT Activity. Perform the tasks in the activity instructions and then answer the question.
+Which event will take place if there is a port security violation on switch S1 interface Fa0/1?
+
+The violation mode can be viewed by issuing the show port-security interface <int> command;
+
+Interface FastEthernet 0/1 is configured with the violation mode of protect;
+
+If there is a violation, interface FastEthernet 0/1 will drop packets with unknown MAC addresses;
+
+"
+"
