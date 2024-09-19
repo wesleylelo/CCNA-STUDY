@@ -9419,7 +9419,556 @@ GigabitEthernet0/0/0 is up, line protocol is up
   IPv4 WCCP Redirect exclude is disabled
 R1#
 "
+
+Filter Command Output -
+
+Another useful feature that improves user experience in the command-line interface (CLI) is filtering show output;
+
+Filtering commands can be used to display specific sections of output;
+
+To enable the filtering command, enter a pipe (|) character after the show command and then enter a filtering parameter and a filtering expression;
+
+The filtering parameters that can be configured after the pipe include:
+
+section - This displays the entire section that starts with the filtering expression;
+
+include - This includes all output lines that match the filtering expression;
+
+exclude - This excludes all output lines that match the filtering expression;
+
+begin - This displays all the output lines from a certain point, starting with the line that matches the filtering expression;
+
+Note: Output filters can be used in combination with any show command;
+
+Exemplos:
+
 "
+R1# show running-config | section line vty
+line vty 0 4
+ password 7 121A0C0411044C
+ login
+ transport input telnet ssh
+R1#
+"
+"
+R1# show ipv6 interface brief | include up
+GigabitEthernet0/0/0   [up/up]
+GigabitEthernet0/0/1   [up/up]
+Serial0/1/1            [up/up]
+R1#
+"
+"
+R1# show ip interface brief | exclude unassigned
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   192.168.10.1    YES manual up                    up
+GigabitEthernet0/0/1   192.168.11.1    YES manual up                    up
+Serial0/1/1            209.165.200.225 YES manual up                    up
+R1#
+"
+"
+R1# show ip route | begin Gateway
+Gateway of last resort is not set
+      192.168.10.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.10.0/24 is directly connected, GigabitEthernet0/0/0
+L        192.168.10.1/32 is directly connected, GigabitEthernet0/0/0
+      192.168.11.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.11.0/24 is directly connected, GigabitEthernet0/0/1
+L        192.168.11.1/32 is directly connected, GigabitEthernet0/0/1
+      209.165.200.0/24 is variably subnetted, 2 subnets, 2 masks
+C        209.165.200.224/30 is directly connected, Serial0/1/1
+L        209.165.200.225/32 is directly connected, Serial0/1/1
+R1#
+"
+
+IP Routing Table -
+
+How does a router know where it can send packets? It creates a routing table that is based on the network in which it is located;
+
+A routing table contains a list of routes to known networks (prefixes and prefix lengths);
+
+The source of this information is derived from the following:
+
+Directly connected networks;
+
+Static routes;
+
+Dynamic routing protocols;
+
+"R1# show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+Gateway of last resort is 10.0.3.2 to network 0.0.0.0
+O*E2  0.0.0.0/0 [110/1] via 10.0.3.2, 00:51:34, Serial0/1/1
+      10.0.0.0/8 is variably subnetted, 8 subnets, 2 masks
+C        10.0.1.0/24 is directly connected, GigabitEthernet0/0/0
+L        10.0.1.1/32 is directly connected, GigabitEthernet0/0/0
+C        10.0.2.0/24 is directly connected, GigabitEthernet0/0/1
+L        10.0.2.1/32 is directly connected, GigabitEthernet0/0/1
+C        10.0.3.0/24 is directly connected, Serial0/1/1
+L        10.0.3.1/32 is directly connected, Serial0/1/1
+O        10.0.4.0/24 [110/50] via 10.0.3.2, 00:24:22, Serial0/1/1
+O        10.0.5.0/24 [110/50] via 10.0.3.2, 00:24:15, Serial0/1/1
+R1#
+"
+
+"
+R2# show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+Gateway of last resort is 209.165.200.226 to network 0.0.0.0
+S*   0.0.0.0/0 [1/0] via 209.165.200.226
+     10.0.0.0/8 is variably subnetted, 8 subnets, 2 masks
+O       10.0.1.0/24 [110/65] via 10.0.3.1, 00:31:38, Serial0/1/0
+O       10.0.2.0/24 [110/65] via 10.0.3.1, 00:31:38, Serial0/1/0
+C       10.0.3.0/24 is directly connected, Serial0/1/0
+L       10.0.3.2/32 is directly connected, Serial0/1/0
+C       10.0.4.0/24 is directly connected, GigabitEthernet0/0/0
+L       10.0.4.1/32 is directly connected, GigabitEthernet0/0/0
+C       10.0.5.0/24 is directly connected, GigabitEthernet0/0/1
+L       10.0.5.1/32 is directly connected, GigabitEthernet0/0/1
+     209.165.200.0/24 is variably subnetted, 2 subnets, 2 masks
+C       209.165.200.224/30 is directly connected, Serial0/1/1
+L       209.165.200.225/32 is directly connected, Serial0/1/1
+R2#
+"
+
+In the routing tables for R1 and R2, notice that the sources for each route are identified by a code. The code identifies how the route was learned. For instance, common codes include the following:
+
+L - Identifies the address assigned to a router interface;
+
+This allows the router to efficiently determine when it receives a packet for the interface instead of being forwarded;
+
+C - Identifies a directly connected network;
+
+S - Identifies a static route created to reach a specific network;
+
+O - Identifies a dynamically learned network from another router using the OSPF routing protocol;
+
+* - This route is a candidate for a default route;
+
+Routing Table Principles - 
+
+There are three routing table principles as described in the table;
+
+These are issues that are addressed by the proper configuration of dynamic routing protocols or static routes on all the routers between the source and destination devices;
+
+Routing Table Principle			Example
+
+Every router makes its decision alone,	R1 can only forward packets using its own routing table;
+based on the information it has in its	R1 does not know what routes are in the routing tables of					
+own routing table;			other routers (e.g., R2);
+
+The information in a routing table of	Just because R1 has route in its routing table to a network
+one router does not necessarily match	in the internet via R2, that does not mean that R2 knows about that same network;
+the routing table of another router;
+
+
+Routing information about a path does	R1 receives a packet with the destination IP address of PC1 and the source IP address of PC3;
+not provide return routing information;	Just because R1 knows to forward the packet out its G0/0/0 interface, doesn’t necessarily mean
+					that it knows how to forward packets originating from PC1 back to the remote network of PC3;
+
+Routing Table Entries -
+
+As a network administrator, it is imperative to know how to interpret the content of IPv4 and IPv6 routing tables;
+
+Directly Connected Networks -
+
+Before a router can learn about any remote networks, it must have at least one active interface configured with an IP address and subnet mask (prefix length);
+
+This is known as a directly connected network or a directly connected route;
+
+Routers add a directly connected route to its routing table when an interface is configured with an IP address and is activated;
+
+A directly connected network is denoted by a status code of C in the routing table;
+
+The route contains a network prefix and prefix length;
+
+The routing table also contains a local route for each of its directly connected networks, indicated by the status code of L;
+
+This is the IP address that is assigned to the interface on that directly connected network;
+
+For IPv4 local routes the prefix length is /32 and for IPv6 local routes the prefix length is /128;
+
+This means the destination IP address of the packet must match all the bits in the local route for this route to be a match;
+
+The purpose of the local route is to efficiently determine when it receives a packet for the interface instead of a packet that needs to be forwarded;
+
+"
+R1# show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+(Output omitted)     
+C        10.0.1.0/24 is directly connected, GigabitEthernet0/0/0
+L        10.0.1.1/32 is directly connected, GigabitEthernet0/0/0
+R1# 
+R1# show ipv6 route
+IPv6 Routing Table - default - 10 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+(Output omitted)      
+       
+C   2001:DB8:ACAD:1::/64 [0/0]
+     via GigabitEthernet0/0/0, directly connected
+L   2001:DB8:ACAD:1::1/128 [0/0]
+     via GigabitEthernet0/0/0, receive
+R1#
+"
+
+Static Routes -
+
+After directly connected interfaces are configured and added to the routing table, static or dynamic routing can be implemented for accessing remote networks;
+
+Static routes are manually configured;
+
+They define an explicit path between two networking devices;
+
+Unlike a dynamic routing protocol, static routes are not automatically updated and must be manually reconfigured if the network topology changes;
+
+The benefits of using static routes include improved security and resource efficiency;
+
+Static routes use less bandwidth than dynamic routing protocols, and no CPU cycles are used to calculate and communicate routes;
+
+The main disadvantage to using static routes is the lack of automatic reconfiguration if the network topology changes.
+
+Static routing has three primary uses:
+
+It provides ease of routing table maintenance in smaller networks that are not expected to grow significantly;
+
+It uses a single default route to represent a path to any network that does not have a more specific match with another route in the routing table;
+
+Default routes are used to send traffic to any destination beyond the next upstream router;
+
+It routes to and from stub networks;
+
+A stub network is a network accessed by a single route, and the router has only one neighbor;
+
+Static Routes in the IP Routing Table -
+
+"
+R1# show ip route static
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+(output omitted)
+       
+      10.0.0.0/8 is variably subnetted, 8 subnets, 2 masks
+S        10.0.4.0/24 [1/0] via 10.0.3.2
+R1# show ipv6 route static
+IPv6 Routing Table - default - 8 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+(output omitted)
+       
+S   2001:DB8:ACAD:4::/64 [1/0]
+     via 2001:DB8:ACAD:3::2
+"
+
+ip route 10.0.4.0 255.255.255.0 10.0.3.2
+
+Dynamic Routing Protocols -
+
+Dynamic routing protocols are used by routers to automatically share information about the reachability and status of remote networks;
+
+Dynamic routing protocols perform several activities, including network discovery and maintaining routing tables;
+
+Important advantages of dynamic routing protocols are the ability to select a best path, and the ability to automatically discover a new best path when there is a change in the topology;
+
+Network discovery is the ability of a routing protocol to share information about the networks that it knows about with other routers that are also using the same routing protocol;
+
+Instead of depending on manually configured static routes to remote networks on every router, a dynamic routing protocol allows the routers to automatically learn about these networks from other routers;
+
+These networks, and the best path to each, are added to the routing table of the router, and identified as a network learned by a specific dynamic routing protocol;
+
+Dynamic Routes in the IP Routing Table -
+
+A previous example used static routes to the 10.0.4.0/24 and 2001:db8:acad:4::/64 networks;
+
+These static routes are no longer configured and OSPF is now being used to dynamically learn all the networks connected to R1 and R2;
+
+The following examples show the IPv4 and IPv6 OSPF routing entries on R1 that can reach these networks on R2;
+
+Notice that both routing entries use the status code of O to indicate the route was learned by the OSPF routing protocol;
+
+Both entries also include the IP address of the next-hop router, via ip-address;
+
+Note: IPv6 routing protocols use the link-local address of the next-hop router;
+
+"
+R1# show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+(output omitted for brevity)
+O        10.0.4.0/24 [110/50] via 10.0.3.2, 00:24:22, Serial0/1/1
+O        10.0.5.0/24 [110/50] via 10.0.3.2, 00:24:15, Serial0/1/1
+R1# show ipv6 route
+IPv6 Routing Table - default - 10 entries
+(Output omitted)
+       NDr - Redirect, RL - RPL, O - OSPF Intra, OI - OSPF Inter
+O   2001:DB8:ACAD:4::/64 [110/50]
+     via FE80::2:C, Serial0/1/1
+O   2001:DB8:ACAD:5::/64 [110/50]
+     via FE80::2:C, Serial0/1/1
+"
+
+Default Route -
+
+A default route is similar to a default gateway on a host;
+
+The default route specifies a next-hop router to use when the routing table does not contain a specific route that matches the destination IP address;
+
+A default route can be either a static route or learned automatically from a dynamic routing protocol;
+
+A default route has an IPv4 route entry of 0.0.0.0/0 or an IPv6 route entry of ::/0;
+
+This means that zero or no bits need to match between the destination IP address and the default route;
+
+Most enterprise routers have a default route in their routing table;
+
+This is to reduce the number of routes in a routing table;
+
+A router, such as a home or small office router that only has one LAN, may reach all its remote networks through a default route;
+
+This is useful when the router has only directly connected networks and one exit point to a service provider router;
+
+Routers R1 and R2 are using OSPF to share routing information about their own networks (10.0.x.x/24 and 2001:db8:acad:x::/64 networks);
+
+R2 has a static default route to the ISP router;
+
+R2 will forward any packets with a destination IP address that does not specifically match one of the networks in its routing table to the ISP router;
+
+This would include all packets destined for the internet;
+
+R2 has shared its default route with R1 using OSPF;
+
+R1 will now have a default route in its routing table that it learned dynamically from OSPF;
+
+R1 will also forward any packets with a destination IP address that does not specifically match one of the networks in its routing table to R2;
+
+Structure of an IPv4 Routing Table -
+
+IPv4 was standardized in the early 1980s using the now obsolete classful addressing architecture;
+
+The IPv4 routing table is organized using this same classful structure;
+
+Notice that some route entries are left justified while others are indented;
+
+This is based on how the routing process searches the IPv4 routing table for the longest match;
+
+This was all because of classful addressing;
+
+Although the lookup process no longer uses classes, the structure of the IPv4 routing table still retains in this format;
+
+"
+Router# show ip route
+(Output omitted)
+     192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.1.0/24 is directly connected, GigabitEthernet0/0
+L       192.168.1.1/32 is directly connected, GigabitEthernet0/0
+O    192.168.2.0/24 [110/65] via 192.168.12.2, 00:32:33, Serial0/0/0
+O    192.168.3.0/24 [110/65] via 192.168.13.2, 00:31:48, Serial0/0/1
+     192.168.12.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.12.0/30 is directly connected, Serial0/0/0
+L       192.168.12.1/32 is directly connected, Serial0/0/0
+     192.168.13.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.13.0/30 is directly connected, Serial0/0/1
+L       192.168.13.1/32 is directly connected, Serial0/0/1
+     192.168.23.0/30 is subnetted, 1 subnets
+O       192.168.23.0/30 [110/128] via 192.168.12.2, 00:31:38, Serial0/0/0
+Router#
+"
+
+Note: The IPv4 routing table in the example is not from any router in the topology used in this module;
+
+It is helpful to recognize the structure of the table;
+
+An indented entry is known as a child route;
+
+A route entry is indented if it is the subnet of a classful address (class A, B or C network);
+
+Directly connected networks will always be indented (child routes) because the local address of the interface is always entered in the routing table as a /32;
+
+The child route will include the route source and all the forwarding information such as the next-hop address;
+
+The classful network address of this subnet will be shown above the route entry, less indented, and without a source code;
+
+That route is known as a parent route;
+
+Note: This is just a brief introduction to the structure of an IPv4 routing table and does not cover details or specifics of this architecture;
+
+The next example shows the IPv4 routing table of R1 in the topology;
+
+Notice that all of the networks in the topology are subnets, which are child routes, of the class A network and parent route 10.0.0.0/8;
+
+"
+R1# show ip route
+(output omitted for brevity)
+O*E2  0.0.0.0/0 [110/1] via 10.0.3.2, 00:51:34, Serial0/1/1
+      10.0.0.0/8 is variably subnetted, 8 subnets, 2 masks
+C        10.0.1.0/24 is directly connected, GigabitEthernet0/0/0
+L        10.0.1.1/32 is directly connected, GigabitEthernet0/0/0
+C        10.0.2.0/24 is directly connected, GigabitEthernet0/0/1
+L        10.0.2.1/32 is directly connected, GigabitEthernet0/0/1
+C        10.0.3.0/24 is directly connected, Serial0/1/1
+L        10.0.3.1/32 is directly connected, Serial0/1/1
+O        10.0.4.0/24 [110/50] via 10.0.3.2, 00:24:22, Serial0/1/1
+O        10.0.5.0/24 [110/50] via 10.0.3.2, 00:24:15, Serial0/1/1
+R1#
+"
+
+Structure of an IPv6 Routing Table -
+
+The concept of classful addressing was never part of IPv6, so the structure of an IPv6 routing table is very straight forward;
+
+Every IPv6 route entry is formatted and aligned the same way;
+
+"
+R1# show ipv6 route
+(output omitted for brevity)
+OE2 ::/0 [110/1], tag 2
+     via FE80::2:C, Serial0/0/1
+C   2001:DB8:ACAD:1::/64 [0/0]
+     via GigabitEthernet0/0/0, directly connected
+L   2001:DB8:ACAD:1::1/128 [0/0]
+     via GigabitEthernet0/0/0, receive
+C   2001:DB8:ACAD:2::/64 [0/0]
+     via GigabitEthernet0/0/1, directly connected
+L   2001:DB8:ACAD:2::1/128 [0/0]
+     via GigabitEthernet0/0/1, receive
+C   2001:DB8:ACAD:3::/64 [0/0]
+     via Serial0/1/1, directly connected
+L   2001:DB8:ACAD:3::1/128 [0/0]
+     via Serial0/1/1, receive
+O   2001:DB8:ACAD:4::/64 [110/50]
+     via FE80::2:C, Serial0/1/1
+O   2001:DB8:ACAD:5::/64 [110/50]
+     via FE80::2:C, Serial0/1/1
+L   FF00::/8 [0/0]
+     via Null0, receive
+R1#
+"
+
+Administrative Distance -
+
+A route entry for a specific network address (prefix and prefix length) can only appear once in the routing table;
+
+However, it is possible that the routing table learns about the same network address from more than one routing source;
+
+Except for very specific circumstances, only one dynamic routing protocol should be implemented on a router;
+
+However, it is possible to configure both OSPF and EIGRP on a router, and both routing protocols may learn of the same destination network;
+
+Each routing protocol may decide on a different path to reach the destination based on the metric of that routing protocol;
+
+This raises a few questions, such as the following:
+
+How does the router know which source to use?
+
+Which route should it install in the routing table? The route learned from OSPF, or the route learned from EIGRP?
+
+Cisco IOS uses what is known as the administrative distance (AD) to determine the route to install into the IP routing table;
+
+The AD represents the "trustworthiness" of the route.;
+
+The lower the AD, the more trustworthy the route source;
+
+Because EIGRP has an AD of 90 and OSPF has an AD of 110, the EIGRP route entry would be installed in the routing table;
+
+Route Source		Administrative Distance
+Directly connected	0
+Static route		1
+EIGRP summary route	5
+External BGP		20
+Internal EIGRP		90
+OSPF			110
+IS-IS			115
+RIP			120
+External EIGRP		170
+Internal BGP		200
+
+
+Note: The AD does not necessarily represent which dynamic routing protocol is best.
+
+A more common example is a router learning the same network address from a static route and a dynamic routing protocol, such as OSPF. A static route has an AD of 1, whereas an OSPF-discovered route has an AD of 110. Given two separate route sources to the same destination, the router chooses to install the route with the lowest AD. When a router has the choice of a static route and an OSPF route, the static route takes precedence.
+
+Note: Directly connected networks have the lowest AD of 0. Only a directly connected network can have an AD of 0.
+
+The table lists various routing protocols and their associated ADs.
+
+Static and Dynamic Routing -
+
+Static or Dynamic?
+
+The previous topic discussed the ways that a router creates its routing table;
+
+So, you now know that routing, like IP addressing, can be either static or dynamic;
+
+Should you use static or dynamic routing? The answer is both! Static and dynamic routing are not mutually exclusive;
+
+Rather, most networks use a combination of dynamic routing protocols and static routes;
+
+Static Routes
+
+Static routes are commonly used in the following scenarios:
+
+As a default route forwarding packets to a service provider;
+
+For routes outside the routing domain and not learned by the dynamic routing protocol;
+
+When the network administrator wants to explicitly define the path for a specific network;
+
+For routing between stub networks;
+
+Static routes are useful for smaller networks with only one path to an outside network;
+
+They also provide security in a larger network for certain types of traffic, or links to other networks that need more control;
+
+Dynamic Routing Protocols
+
+Dynamic routing protocols help the network administrator manage the time-consuming and exacting process of configuring and maintaining static routes;
+
+Dynamic routing protocols are implemented in any type of network consisting of more than just a few routers;
+
+Dynamic routing protocols are scalable and automatically determine better routes if there is a change in the topology;
+
+Dynamic routing protocols are commonly used in the following scenarios:
+
+In networks consisting of more than just a few routers;
+
+When a change in the network topology requires the network to automatically determine another path;
+
+For scalability;
+
+As the network grows, the dynamic routing protocol automatically learns about any new networks;
+
+The table shows a comparison of some the differences between dynamic and static routing;
+
+Feature				Dynamic Routing				Static Routing
+
+Configuration complexity	Independent of network size		Increases with network size
+
+Topology changes		Automatically adapts to			Administrator intervention required
+				topology changes
+
+Scalability			Suitable for simple to complex		Suitable for simple topologies
+				 network topologies
+
+Security			Security must be configured		Security is inherent
+
+Resource Usage			Uses CPU, memory, and link bandwidth	No additional resources needed
+
+Path Predictability		Route depends on topology and routing	Explicitly defined by the administrator
+				protocol used
+
+
 
 
 
