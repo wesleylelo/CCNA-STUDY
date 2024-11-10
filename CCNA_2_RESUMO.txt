@@ -9967,9 +9967,1029 @@ Resource Usage			Uses CPU, memory, and link bandwidth	No additional resources ne
 
 Path Predictability		Route depends on topology and routing	Explicitly defined by the administrator
 				protocol used
+Dynamic Routing Evolution -
+
+Dynamic routing protocols have been used in networks since the late 1980s;
+
+One of the first routing protocols was RIP;
+
+RIPv1 was released in 1988, but some of the basic algorithms within the protocol were used on the Advanced Research Projects Agency Network (ARPANET) as early as 1969;
+
+As networks evolved and became more complex, new routing protocols emerged;
+
+The RIP protocol was updated to RIPv2 to accommodate growth in the network environment;
+
+However, RIPv2 still does not scale to the larger network implementations of today;
+
+To address the needs of larger networks, two advanced routing protocols were developed: OSPF and Intermediate System-to-Intermediate System (IS-IS);
+
+Cisco developed the Interior Gateway Routing Protocol (IGRP), which was later replaced by Enhanced IGRP (EIGRP), which also scales well in larger network implementations.
+
+Additionally, there was the need to connect the different routing domains of different organizations and provide routing between them;
+
+The Border Gateway Protocol (BGP), the successor of Exterior Gateway Protocol (EGP) is used between Internet Service Providers (ISPs);
+
+BGP is also used between ISPs and some private organizations to exchange routing information;
+
+To support IPv6 communication, newer versions of the IP routing protocols have been developed;
+
+The table classifies the current routing protocols;
+
+Interior Gateway Protocols (IGPs) are routing protocols used to exchange routing information within a routing domain administered by a single organization;
+
+There is only one EGP and it is BGP;
+
+BGP is used to exchange routing information between different organizations, known as autonomous systems (AS);
+
+BGP is used by ISPs to route packets over the internet;
+
+Distance vector, link-state, and path vector routing protocols refer to the type of routing algorithm used to determine best path;
+
+	Interior Gateway Protocols	Exterior Gateway Protocols
+	Distance Vector	Link-State	Path Vector
+IPv4	RIPv2	EIGRP	OSPFv2	IS-IS	BGP-4
+IPv6	RIPng	EIGRP for IPv6	OSPFv3	IS-IS for IPv6	BGP-MP
+
+Dynamic Routing Protocol Concepts -
+
+A routing protocol is a set of processes, algorithms, and messages that are used to exchange routing information and populate the routing table with the choice of best paths;
+
+The purpose of dynamic routing protocols includes the following:
+
+Discovery of remote networks;
+
+Maintaining up-to-date routing information;
+
+Choosing the best path to destination networks;
+
+Ability to find a new best path if the current path is no longer available;
+
+The main components of dynamic routing protocols include the following:
+
+Data structures - Routing protocols typically use tables or databases for their operations;
+
+This information is kept in RAM;
+
+Routing protocol messages - Routing protocols use various types of messages to discover neighboring routers, exchange routing information, and other tasks to learn and maintain accurate 
+
+information about the network;
+
+Algorithm - An algorithm is a finite list of steps used to accomplish a task;
+
+Routing protocols use algorithms for facilitating routing information and for the best path determination;
+
+Routing protocols determine the best path, or route, to each network;
+
+That route is then offered to the routing table;
+
+The route will be installed in the routing table if there is not another routing source with a lower AD;
+
+A primary benefit of dynamic routing protocols is that routers exchange routing information when there is a topology change;
+
+This exchange allows routers to automatically learn about new networks and to find alternate paths when there is a link failure to a current network;
+
+Best Path -
+
+Before a path to a remote network is offered to the routing table, the dynamic routing protocol must determine the best path to that network;
+
+Determining the best path may involve the evaluation of multiple paths to the same destination network and selecting the optimum or shortest path to reach that network;
+
+Whenever multiple paths to the same network exist, each path uses a different exit interface on the router to reach that network;
+
+The best path is selected by a routing protocol based on the value or metric it uses to determine the distance to reach a network;
+
+A metric is the quantitative value used to measure the distance to a given network;
+
+The best path to a network is the path with the lowest metric;
+
+Dynamic routing protocols typically use their own rules and metrics to build and update routing tables;
+
+The routing algorithm generates a value, or a metric, for each path through the network;
+
+Metrics can be based on either a single characteristic or several characteristics of a path;
+
+Some routing protocols can base route selection on multiple metrics, combining them into a single metric;
+
+Routing Protocol	Metric
+
+Routing Information	The metric is “hop count”;
+Protocol (RIP)		Each router along a path adds a hop to the hop count;
+			A maximum of 15 hops allowed;
+Open Shortest		The metric is “cost” which is the based on the cumulative bandwidth from source to destination.
+Path First (OSPF)	Faster links are assigned lower costs compared to slower (higher cost) links;
+
+Enhanced Interior	It calculates a metric based on the slowest bandwidth and delay values;
+Gateway Routing		It could also include load and reliability into the metric calculation;
+Protocol (EIGRP)
+
+Load Balancing -
+
+What happens if a routing table has two or more paths with identical metrics to the same destination network?
+
+When a router has two or more paths to a destination with equal cost metrics, then the router forwards the packets using both paths equally;
+
+This is called equal cost load balancing;
+
+The routing table contains the single destination network, but has multiple exit interfaces, one for each equal cost path;
+
+The router forwards packets using the multiple exit interfaces listed in the routing table;
+
+If configured correctly, load balancing can increase the effectiveness and performance of the network.
+
+Equal cost load balancing is implemented automatically by dynamic routing protocols;
+
+It is enabled with static routes when there are multiple static routes to the same destination network using different next-hop routers;
+
+Note: Only EIGRP supports unequal cost load balancing;
+
+Static Routes -
+
+Types of Static Routes -
+
+Static routes are commonly implemented on a network;
+
+This is true even when there is a dynamic routing protocol configured;
+
+For instance, an organization could configure a default static route to the service provider and advertise this route to other corporate routers using the dynamic routing protocol;
+
+Static routes can be configured for IPv4 and IPv6;
+
+Both protocols support the following types of static routes:
+
+Standard static route;
+
+Default static route;
+
+Floating static route;
+
+Summary static route;
+
+Static routes are configured using the ip route and ipv6 route global configuration commands;
+
+Next-Hop Options -
+
+When configuring a static route, the next hop can be identified by an IP address, exit interface, or both;
+
+How the destination is specified creates one of the three following types of static route:
+
+Next-hop route - Only the next-hop IP address is specified;
+
+Directly connected static route - Only the router exit interface is specified;
+
+Fully specified static route - The next-hop IP address and exit interface are specified;
+
+IPv4 Static Route Command -
+
+IPv4 static routes are configured using the following global configuration command:
+
+Router(config)# ip route network-address subnet-mask { ip-address | exit-intf [ip-address]} [distance]
+
+Note: Either the ip-address, exit-intf, or the ip-address and exit-intf parameters must be configured;
+
+Parameter		Description
+
+network-address		Identifies the destination IPv4 network address of the remote network to add to the routing table;
+
+subnet-mask		Identifies the subnet mask of the remote network;
+			The subnet mask can be modified to summarize a group of networks and create a summary static route;
+
+ip-address		Identifies the next-hop router IPv4 address;
+			Typically used with broadcast networks (i.e., Ethernet);
+			Could create a recursive static route where the router performs an additional lookup to find the exit interface;
+
+exit-intf		Identifies the exit interface to forward packets;
+			Creates a directly connected static route;
+			Typically used in a point-to-point configuration;
+
+exit-intf ip-address	Creates a fully specified static route because it specifies the exit interface and next-hop IPv4 address;
+
+distance		Optional command that can be used to assign an administrative distance value between 1 and 255;
+			Typically used to configure a floating static route by setting an administrative distance that is higher than a dynamically learned route;
+
+IPv6 Static Route Command -
+
+IPv6 static routes are configured using the following global configuration command:
+
+Router(config)# ipv6 route ipv6-prefix/prefix-length {ipv6-address | exit-intf [ipv6-address]} [distance]
 
 
+Parameter		Description
 
+ipv6-prefix		Identifies the destination IPv6 network address of the remote network to add to the routing table;
+
+/prefix-length		Identifies the prefix length of the remote network;
+
+ipv6-address		Identifies the next-hop router IPv6 address;
+			Typically used with broadcast networks (i.e., Ethernet);
+			Could create a recursive static route where the router performs an additional lookup to find the exit interface;
+
+exit-intf		Identifies the exit interface to forward packets;
+			Creates a directly connected static route;
+			Typically used in a point-to-point configuration;
+
+exit-intf ipv6-address	Creates a fully specified static route because it specifies the exit interface and next-hop IPv6 address;
+
+distance		Optional command that can be used to assign an administrative distance value between 1 and 255;
+			Typically used to configure a floating static route by setting an administrative distance that is higher than a dynamically learned route;
+
+Note: The ipv6 unicast-routing global configuration command must be configured to enable the router to forward IPv6 packets;
+
+IPv4 Starting Routing Tables -
+
+R1 IPv4 Routing Table
+
+"
+R1# show ip route | begin Gateway
+Gateway of last resort is not set
+      172.16.0.0/16 is variably subnetted, 4 subnets, 2 masks
+C        172.16.2.0/24 is directly connected, Serial0/1/0
+L        172.16.2.1/32 is directly connected, Serial0/1/0
+C        172.16.3.0/24 is directly connected, GigabitEthernet0/0/0
+L        172.16.3.1/32 is directly connected, GigabitEthernet0/0/0
+R1#
+"
+"
+R2 IPv4 Routing Table
+
+R2# show ip route | begin Gateway
+Gateway of last resort is not set
+      172.16.0.0/16 is variably subnetted, 4 subnets, 2 masks
+C        172.16.1.0/24 is directly connected, GigabitEthernet0/0/0
+L        172.16.1.1/32 is directly connected, GigabitEthernet0/0/0
+C        172.16.2.0/24 is directly connected, Serial0/1/0
+L        172.16.2.2/32 is directly connected, Serial0/1/0
+      192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.1.0/24 is directly connected, Serial0/1/1
+L        192.168.1.2/32 is directly connected, Serial0/1/1
+R2#
+"
+"
+R3 IPv4 Routing Table
+
+R3# show ip route | begin Gateway
+Gateway of last resort is not set
+      192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.1.0/24 is directly connected, Serial0/1/1
+L        192.168.1.1/32 is directly connected, Serial0/1/1
+      192.168.2.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.2.0/24 is directly connected, GigabitEthernet0/0/0
+L        192.168.2.1/32 is directly connected, GigabitEthernet0/0/0
+R3#
+"
+
+R1 Can Ping R2
+
+None of the routers have knowledge of any networks beyond the directly connected interfaces;
+
+This means each router can only reach directly connected networks, as demonstrated in the following ping tests;
+
+A ping from R1 to the serial 0/1/0 interface of R2 should be successful because it is a directly-connected network;
+
+"
+R1# ping 172.16.2.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 172.16.2.2, timeout is 2 seconds:
+!!!!!
+"
+
+R1 Cannot Ping R3 LAN
+
+However, a ping from R1 to the R3 LAN should fail because R1 does not have an entry in its routing table for the R3 LAN network.
+
+"
+R1# ping 192.168.2.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.2.1, timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+"
+
+Configure IP Static Routes -
+
+IPv4 Next-Hop Static Route -
+
+The commands to configure R1 with the IPv4 static routes to the three remote networks are as follows:
+
+"
+R1(config)# ip route 172.16.1.0 255.255.255.0 172.16.2.2
+R1(config)# ip route 192.168.1.0 255.255.255.0 172.16.2.2
+R1(config)# ip route 192.168.2.0 255.255.255.0 172.16.2.2
+"
+
+The routing table for R1 now has routes to the three remote IPv4 networks;
+
+"
+R1# show ip route | begin Gateway
+Gateway of last resort is not set
+      172.16.0.0/16 is variably subnetted, 5 subnets, 2 masks
+S        172.16.1.0/24 [1/0] via 172.16.2.2
+C        172.16.2.0/24 is directly connected, Serial0/1/0
+L        172.16.2.1/32 is directly connected, Serial0/1/0
+C        172.16.3.0/24 is directly connected, GigabitEthernet0/0/0
+L        172.16.3.1/32 is directly connected, GigabitEthernet0/0/0
+S     192.168.1.0/24 [1/0] via 172.16.2.2
+S     192.168.2.0/24 [1/0] via 172.16.2.2
+R1#
+"
+IPv4 Directly Connected Static Route -
+
+When configuring a static route, another option is to use the exit interface to specify the next-hop address;
+
+Three directly connected IPv4 static routes are configured on R1 using the exit interface;
+
+"
+R1(config)# ip route 172.16.1.0 255.255.255.0 s0/1/0
+R1(config)# ip route 192.168.1.0 255.255.255.0 s0/1/0
+R1(config)# ip route 192.168.2.0 255.255.255.0 s0/1/0
+
+The IPv4 routing table for R1 shows that when a packet is destined for the 192.168.2.0/24 network, R1 looks for a match in the routing table, and finds that it can forward the packet out 
+
+of its Serial 0/1/0 interface.
+
+Note: Using a next-hop address is generally recommended;
+
+Directly connected static routes should only be used with point-to-point serial interfaces;
+
+"
+R1# show ip route | begin Gateway
+Gateway of last resort is not set
+      172.16.0.0/16 is variably subnetted, 5 subnets, 2 masks
+S        172.16.1.0/24 is directly connected, Serial0/1/0
+C        172.16.2.0/24 is directly connected, Serial0/1/0
+L        172.16.2.1/32 is directly connected, Serial0/1/0
+C        172.16.3.0/24 is directly connected, GigabitEthernet0/0/0
+L        172.16.3.1/32 is directly connected, GigabitEthernet0/0/0
+S     192.168.1.0/24 is directly connected, Serial0/1/0
+S     192.168.2.0/24 is directly connected, Serial0/1/0
+
+IPv4 Fully Specified Static Route -
+
+In a fully specified static route, both the exit interface and the next-hop IP address are specified;
+
+This form of static route is used when the exit interface is a multi-access interface and it is necessary to explicitly identify the next hop;
+
+The next hop must be directly connected to the specified exit interface;
+
+Using an exit interface is optional, however it is necessary to use a next-hop address;
+
+The difference between an Ethernet multi-access network and a point-to-point serial network is that a point-to-point serial network has only one other device on that network, the router at 
+
+the other end of the link;
+
+With Ethernet networks, there may be many different devices sharing the same multi-access network, including hosts and even multiple routers;
+
+It is recommended that when the exit interface is an Ethernet network, that the static route includes a next-hop address;
+
+You can also use a fully specified static route that includes both the exit interface and the next-hop address;;
+
+R1(config)# ip route 172.16.1.0 255.255.255.0 GigabitEthernet 0/0/1 172.16.2.2
+R1(config)# ip route 192.168.1.0 255.255.255.0 GigabitEthernet 0/0/1 172.16.2.2
+R1(config)# ip route 192.168.2.0 255.255.255.0 GigabitEthernet 0/0/1 172.16.2.2
+
+When forwarding packets to R2, the exit interface is GigabitEthernet 0/0/1 and the next-hop IPv4 address is 172.16.2.2.
+
+R1# show ip route | begin Gateway
+Gateway of last resort is not set
+      172.16.0.0/16 is variably subnetted, 5 subnets, 2 masks
+S        172.16.1.0/24 [1/0] via 172.16.2.2, GigabitEthernet0/0/1
+C        172.16.2.0/24 is directly connected, GigabitEthernet0/0/1
+L        172.16.2.1/32 is directly connected, GigabitEthernet0/0/1
+C        172.16.3.0/24 is directly connected, GigabitEthernet0/0/0
+L        172.16.3.1/32 is directly connected, GigabitEthernet0/0/0
+S     192.168.1.0/24 [1/0] via 172.16.2.2, GigabitEthernet0/0/1
+S     192.168.2.0/24 [1/0] via 172.16.2.2, GigabitEthernet0/0/1
+
+Configure IP Default Static Routes -
+
+Default Static Route -
+
+A default route is a static route that matches all packets;
+
+Instead of routers storing routes for all of the networks in the internet, they can store a single default route to represent any network that is not in the routing table;
+
+Routers commonly use default routes that are either configured locally or learned from another router, using a dynamic routing protocol;
+
+A default route does not require any far-left bits to match between the default route and the destination IP address;
+
+A default route is used when no other routes in the routing table match the destination IP address of the packet;
+
+In other words, if a more specific match does not exist, then the default route is used as the Gateway of Last Resort;
+
+Default static routes are commonly used when connecting an edge router to a service provider network, or a stub router (a router with only one upstream neighbor router);
+
+IPv4 Default Static Route -
+
+The command syntax for an IPv4 default static route is similar to any other IPv4 static route, except that the network address is 0.0.0.0 and the subnet mask is 0.0.0.0;
+
+The 0.0.0.0 0.0.0.0 in the route will match any network address;
+
+Note: An IPv4 default static route is commonly referred to as a quad-zero route.
+
+The basic command syntax for an IPv4 default static route is as follows:
+
+Router(config)# ip route 0.0.0.0 0.0.0.0 {ip-address | exit-intf}
+
+IPv6 Default Static Route -
+
+The command syntax for an IPv6 default static route is similar to any other IPv6 static route, except that the ipv6-prefix/prefix-length is ::/0, which matches all routes;
+
+The basic command syntax for an IPv6 default static route is as follows:
+
+Router(config)# ipv6 route ::/0 {ipv6-address | exit-intf}
+
+Configure a Default Static Route -
+
+Verify a Default Static Route -
+
+The show ip route static command output from R1 displays the contents of the static routes in the routing table;
+
+Note the asterisk (*) next to the route with code ‘S’;
+
+As displayed in the codes table in the show ip route output, the asterisk indicates that this static route is a candidate default route, which is why it is selected as the Gateway of Last 
+
+Resort;
+
+"
+R1# show ip route static
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP 
+D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2 
+E1 - OSPF external type 1, E2 - OSPF external type 2 
+i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2 
+ia - IS-IS inter area, * - candidate default, U - per-user static route 
+o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP 
++ - replicated route, % - next hop override 
+
+Gateway of last resort is 172.16.2.2 to network 0.0.0.0
+
+S* 0.0.0.0/0 [1/0] via 172.16.2.2 
+
+R1#
+"
+
+Notice that the static default route configuration uses the /0 mask for IPv4 default routes and the ::/0 prefix for IPv6 default routes;
+
+Remember that the IPv4 subnet mask and IPv6 prefix-length in a routing table determines how many bits must match between the destination IP address of the packet and the route in the 
+
+routing table;
+
+A /0 mask or ::/0 prefix indicates that none of the bits are required to match;
+
+As long as a more specific match does not exist, the default static route matches all packets;
+
+Configure Floating Static Routes -
+
+Floating Static Routes -
+
+Another type of static route is a floating static route;
+
+Floating static routes are static routes that are used to provide a backup path to a primary static or dynamic route, in the event of a link failure;
+
+The floating static route is only used when the primary route is not available;
+
+To accomplish this, the floating static route is configured with a higher administrative distance than the primary route;
+
+The administrative distance represents the trustworthiness of a route;
+
+If multiple paths to the destination exist, the router will choose the path with the lowest administrative distance;
+
+For example, assume that an administrator wants to create a floating static route as a backup to an EIGRP-learned route;
+
+The floating static route must be configured with a higher administrative distance than EIGRP;
+
+EIGRP has an administrative distance of 90;
+
+If the floating static route is configured with an administrative distance of 95, the dynamic route learned through EIGRP is preferred to the floating static route;
+
+If the EIGRP-learned route is lost, the floating static route is used in its place;
+
+The branch router typically forwards all traffic to the HQ router over the private WAN link;
+
+The routers exchange route information using EIGRP;
+
+A floating static route, with an administrative distance of 91 or higher, could be configured to serve as a backup route;
+
+If the private WAN link fails and the EIGRP route disappears from the routing table, the router selects the floating static route as the best path to reach the HQ LAN;
+
+By default, static routes have an administrative distance of 1, making them preferable to routes learned from dynamic routing protocols;
+
+For example, the administrative distances of some common interior gateway dynamic routing protocols are:
+
+EIGRP = 90
+OSPF = 110
+IS-IS = 115
+
+The administrative distance of a static route can be increased to make the route less desirable than that of another static route or a route learned through a dynamic routing protocol;
+
+In this way, the static route “floats” and is not used when the route with the better administrative distance is active;
+
+However, if the preferred route is lost, the floating static route can take over, and traffic can be sent through this alternate route;
+
+Configure IPv4 and IPv6 Floating Static Routes -
+
+IP floating static routes are configured by using the distance argument to specify an administrative distance;
+
+If no administrative distance is configured, the default value (1) is used;
+
+The preferred default route from R1 is to R2;
+
+The connection to R3 should be used for backup only;
+
+"
+R1(config)# ip route 0.0.0.0 0.0.0.0 172.16.2.2
+R1(config)# ip route 0.0.0.0 0.0.0.0 10.10.10.2 5
+R1(config)# ipv6 route ::/0 2001:db8:acad:2::2
+R1(config)# ipv6 route ::/0 2001:db8:feed:10::2 5
+"
+
+R1 is configured with IPv4 and IPv6 default static routes pointing to R2;
+
+Because no administrative distance is configured, the default value (1) is used for these static routes;
+
+R1 is also configured with IPv4 and IPv6 floating static default routes pointing to R3 with an administrative distance of 5;
+
+This value is greater than the default value of 1 and therefore;
+
+This route floats and is not present in the routing table unless the preferred route fails;
+
+The show ip route and show ipv6 route output verifies that the default routes to R2 are installed in the routing table;
+
+Note that the IPv4 floating static route to R3 is not present in the routing table;
+
+"
+R1# show ip route static | begin Gateway
+Gateway of last resort is 172.16.2.2 to network 0.0.0.0
+
+S*   0.0.0.0/0 [1/0] via 172.16.2.2
+"
+"
+R1# show ipv6 route static | begin S : 
+S   ::/0 [1/0]
+     via 2001:DB8:ACAD:2::2
+R1#
+"
+Use the show run command to verify that floating static routes are in the configuration;
+
+The following command output verifies that both IPv6 static default routes are in the running configuration;
+
+"
+R1# show run | include ipv6 route
+ipv6 route ::/0 2001:db8:feed:10::2 5
+ipv6 route ::/0 2001:db8:acad:2::2
+R1#
+"
+
+Test the Floating Static Route -
+
+What would happen if R2 failed?
+
+o simulate this failure, both serial interfaces of R2 are shut down, as shown in the configuration;
+
+"
+R2(config)# interface s0/1/0
+R2(config-if)# shut
+*Sep 18 23:36:27.000: %LINK-5-CHANGED: Interface Serial0/1/0, changed state to administratively down
+*Sep 18 23:36:28.000: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/1/0, changed state to down
+R2(config-if)# interface s0/1/1
+R2(config-if)# shut
+*Sep 18 23:36:41.598: %LINK-5-CHANGED: Interface Serial0/1/1, changed state to administratively down
+*Sep 18 23:36:42.598: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/1/1, changed state to down
+"
+
+Notice that R1 automatically generates messages indicating that the serial interface to R2 is down;
+
+"
+R1#
+*Sep 18 23:35:48.810: %LINK-3-UPDOWN: Interface Serial0/1/0, changed state to down
+R1#
+*Sep 18 23:35:49.811: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/1/0, changed state to down
+R1#
+"
+
+A look at the IP routing tables of R1 verifies that the floating static default routes are now installed as the default routes and are pointing to R3 as the next-hop router;
+
+"
+R1# show ip route static | begin Gateway
+Gateway of last resort is 10.10.10.2 to network 0.0.0.0
+S*    0.0.0.0/0 [5/0] via 10.10.10.2
+R1# show ipv6 route static | begin :: 
+S   ::/0 [5/0] 
+     via 2001:DB8:FEED:10::2
+R1#
+"
+
+Configure Static Host Routes -
+
+Host Routes -
+
+A host route is an IPv4 address with a 32-bit mask, or an IPv6 address with a 128-bit mask;
+
+The following shows the three ways a host route can be added to the routing table:
+
+Automatically installed when an IP address is configured on the router;
+
+Configured as a static host route;
+
+Host route automatically obtained through other methods;
+
+Automatically Installed Host Routes -
+
+Cisco IOS automatically installs a host route, also known as a local host route, when an interface address is configured on the router;
+
+A host route allows for a more efficient process for packets that are directed to the router itself, rather than for packet forwarding;
+
+This is in addition to the connected route, designated with a C in the routing table for the network address of the interface;
+
+When an active interface on a router is configured with an IP address, a local host route is automatically added to the routing table;
+
+The local routes are marked with L in the output of the routing table;
+
+The IP addresses assigned to the Branch Serial0/1/0 interface are 198.51.100.1/30 and 2001:db8:acad:1::1/64;
+
+The local routes for the interface are installed by the IOS in the IPv4 and 
+
+IPv6 routing tables;
+
+"
+Branch# show ip route | begin Gateway
+Gateway of last resort is not set
+      198.51.100.0/24 is variably subnetted, 2 subnets, 2 masks
+C        198.51.100.0/30 is directly connected, Serial0/1/0
+L        198.51.100.1/32 is directly connected, Serial0/1/0
+"
+"
+Branch# show ipv6 route | begin :: 
+C   2001:DB8:ACAD:1::/64 [0/0]
+     via Serial0/1/0, directly connected
+L   2001:DB8:ACAD:1::1/128 [0/0]
+     via Serial0/1/0, receive
+L   FF00::/8 [0/0]
+     via Null0, receive
+"
+
+Static Host Routes -
+
+A host route can be a manually configured static route to direct traffic to a specific destination device, such as the server;
+
+The static route uses a destination IP address and a 255.255.255.255 (/32) mask for IPv4 host routes, and a /128 prefix length for IPv6 host routes;
+
+Configure Static Host Routes -
+
+The IPv4 and IPv6 static host route configuration on the Branch router to access the server;
+
+"
+Branch(config)# ip route 209.165.200.238 255.255.255.255 198.51.100.2
+Branch(config)# ipv6 route 2001:db8:acad:2::238/128 2001:db8:acad:1::2
+Branch(config)# exit
+Branch#
+"
+
+Verify Static Host Routes -
+
+A review of both the IPv4 and IPv6 route tables verifies that the routes are active;
+
+"
+Branch# show ip route | begin Gateway
+Gateway of last resort is not set
+      198.51.100.0/24 is variably subnetted, 2 subnets, 2 masks
+C        198.51.100.0/30 is directly connected, Serial0/1/0
+L        198.51.100.1/32 is directly connected, Serial0/1/0
+      209.165.200.0/32 is subnetted, 1 subnets
+S        209.165.200.238 [1/0] via 198.51.100.2
+"
+"
+Branch# show ipv6 route
+(Output omitted)
+C   2001:DB8:ACAD:1::/64 [0/0]
+     via Serial0/1/0, directly connected
+L   2001:DB8:ACAD:1::1/128 [0/0]
+     via Serial0/1/0, receive
+S   2001:DB8:ACAD:2::238/128 [1/0]
+     via 2001:DB8:ACAD:1::2
+Branch#
+"
+
+Configure IPv6 Static Host Route with Link-Local Next-Hop -
+
+For IPv6 static routes, the next-hop address can be the link-local address of the adjacent router;
+
+However, you must specify an interface type and an interface number when using a link-local address as the next hop;
+
+First, the original IPv6 static host route is removed, then a fully specified route configured with the IPv6 address of the server and the IPv6 link-local address of the ISP router;
+
+"
+Branch(config)# no ipv6 route 2001:db8:acad:2::238/128 2001:db8:acad:1::2
+Branch(config)# ipv6 route 2001:db8:acad:2::238/128 serial 0/1/0 fe80::2
+Branch# show ipv6 route | begin ::
+C   2001:DB8:ACAD:1::/64 [0/0]
+     via Serial0/1/0, directly connected
+L   2001:DB8:ACAD:1::1/128 [0/0]
+     via Serial0/1/0, receive
+S   2001:DB8:ACAD:2::238/128 [1/0]
+     via FE80::2, Serial0/1/0
+Branch#
+"
+
+Packet Processing with Static Routes -
+
+Static Routes and Packet Forwarding -
+
+The following describes the packet forwarding process with static routes:
+
+The packet arrives on the GigabitEthernet 0/0/0 interface of R1;
+
+R1 does not have a specific route to the destination network, 192.168.2.0/24;
+
+Therefore, R1 uses the default static route;
+
+R1 encapsulates the packet in a new frame;
+
+Because the link to R2 is a point-to-point link, R1 adds an "all 1s" address for the Layer 2 destination address;
+
+The frame is forwarded out of the Serial 0/1/0 interface;
+
+The packet arrives on the Serial 0/1/0 interface on R2;
+
+R2 de-encapsulates the frame and looks for a route to the destination;
+
+R2 has a static route to 192.168.2.0/24 out of the Serial 0/1/1 interface;
+
+R2 encapsulates the packet in a new frame;
+
+Because the link to R3 is a point-to-point link, R2 adds an "all 1s" address for the Layer 2 destination address;
+
+The frame is forwarded out of the Serial 0/1/1 interface;
+
+The packet arrives on the Serial 0/1/1 interface on R3;
+
+R3 de-encapsulates the frame and looks for a route to the destination;
+
+R3 has a connected route to 192.168.2.0/24 out of the GigabitEthernet 0/0/0 interface;
+
+R3 looks up the ARP table entry for 192.168.2.10 to find the Layer 2 Media Access Control (MAC) address for PC3;
+
+If no entry exists, R3 sends an Address Resolution Protocol (ARP) request out of the GigabitEthernet 0/0/0 interface, and PC3 responds with an ARP reply, which includes the PC3 MAC 
+
+address;
+
+R3 encapsulates the packet in a new frame with the MAC address of the GigabitEthernet 0/0/0 interface as the source Layer 2 address, and the MAC address of PC3 as the destination MAC 
+
+address;
+
+The frame is forwarded out of GigabitEthernet 0/0/0 interface;
+
+The packet arrives on the network interface card (NIC) interface of PC3;
+
+Troubleshoot IPv4 Static and Default Route Configuration -
+
+Network Changes -
+
+No matter how well you set up your network, you will have to be ready to troubleshoot some problem;
+
+Networks are frequently subject to events that can cause their status to change; 
+
+An interface can fail, or a service provider drops a connection;
+
+Links can become oversaturated, or an administrator may enter a wrong configuration;
+
+When there is a change in the network, connectivity may be lost;
+
+Network administrators are responsible for pinpointing and solving the problem;
+
+To find and solve these issues, a network administrator must be familiar with tools to help isolate routing problems quickly;
+
+Common Troubleshooting Commands -
+
+ping
+
+An extended ping from the source interface of R1 to the LAN interface of R3;
+
+An extended ping is an enhanced version of the ping utility;
+
+Extended ping enables you to specify the source IP address for the ping packets;
+
+"
+R1# ping 192.168.2.1 source 172.16.3.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.2.1, timeout is 2 seconds:
+Packet sent with a source address of 172.16.3.1
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 3/3/5 ms
+R1#
+"
+
+traceroute
+
+This example displays the result of a traceroute from R1 to the R3 LAN;
+
+Note that each hop route returns an ICMP reply;
+
+"
+R1# traceroute 192.168.2.1
+Type escape sequence to abort.
+Tracing the route to 192.168.2.1
+VRF info: (vrf in name/id, vrf out name/id)
+  1 172.16.2.2 1 msec 2 msec 1 msec
+  2 192.168.1.1 2 msec 3 msec *
+R1#
+"
+
+show ip route
+
+The show ip route command in this example displays the routing table of R1;
+
+"
+R1# show ip route | begin Gateway
+Gateway of last resort is not set
+      172.16.0.0/16 is variably subnetted, 5 subnets, 2 masks
+S        172.16.1.0/24 [1/0] via 172.16.2.2
+C        172.16.2.0/24 is directly connected, Serial0/1/0
+L        172.16.2.1/32 is directly connected, Serial0/1/0
+C        172.16.3.0/24 is directly connected, GigabitEthernet0/0/0
+L        172.16.3.1/32 is directly connected, GigabitEthernet0/0/0
+S     192.168.1.0/24 [1/0] via 172.16.2.2
+S     192.168.2.0/24 [1/0] via 172.16.2.2
+R1#
+"
+
+show ip interface brief
+
+A quick status of all interfaces on the router is shown using the show ip interface brief command in this example.
+
+"
+R1# show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   172.16.3.1      YES manual up                    up
+GigabitEthernet0/0/1   unassigned      YES unset  up                    up
+Serial0/1/0            172.16.2.1      YES manual up                    up
+Serial0/1/1            unassigned      YES unset  up                    up
+R1#
+"
+
+show cdp neighbors
+
+The show cdp neighbors command provides a list of directly connected Cisco devices;
+
+This command validates Layer 2 (and therefore Layer 1) connectivity;
+
+If a neighbor device is listed in the command output, but it cannot be pinged, then Layer 3 addressing should be investigated;
+
+"
+R1# show cdp neighbors
+Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater, P - Phone,
+                  D - Remote, C - CVTA, M - Two-port Mac Relay
+Device ID        Local Intrfce     Holdtme    Capability  Platform  Port ID
+Switch           Gig 0/0/0         129              S I   WS-C3560- Fas 0/5
+R2               Ser 0/1/0         156             R S I  ISR4221/K Ser 0/1/0
+Total cdp entries displayed : 3
+R1#
+"
+
+Solve a Connectivity Problem -
+
+Finding a missing (or misconfigured) route is a relatively straightforward process if the right tools are used in a methodical manner;
+
+For instance, the user at PC1 reports that he cannot access resources on the R3 LAN;
+
+This can be confirmed by pinging the LAN interface of R3 using the LAN interface of R1 as the source;
+
+Ping the Remote LAN -
+
+The network administrator can test connectivity between the two LANs from R1 instead of PC1. This can be done by sourcing the ping from the G0/0/0 interface on R1 to the G0/0/0 interface 
+
+on R3;
+
+The ping results show that there is no connectivity between these LANs;
+
+"
+R1# ping 192.168.2.1 source g0/0/0
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.2.1, timeout is 2 seconds:
+Packet sent with a source address of 172.16.3.1
+.....
+Success rate is 0 percent (0/5)
+"
+
+Ping the Next-Hop Router -
+
+Next, a ping to the S0/1/0 interface on R2 is successful;
+
+This ping is sourced from the S0/1/0 interface of R1;
+
+Therefore, the issue is not loss of connectivity between R1 and R2;
+
+"
+R1# ping 172.16.2.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 172.16.2.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 3/3/4 ms
+"
+
+Ping R3 LAN from S0/1/0
+
+A ping from R1 to the R3 interface 192.168.2.1 is successful as well;
+
+This ping is sourced from the S0/1/0 interface on R1;
+
+R3 has a route back to the network between R1 and R2, 172.16.2.0/24;
+
+This confirms that R1 can reach the remote LAN on R3;
+
+However, packets sourced from the LAN on R1 cannot;
+
+This indicates that either R2 or R3 may have an incorrect or missing route to the LAN on R1;
+
+"
+R1# ping 192.168.2.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.2.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 3/3/4 ms
+"
+
+Verify the R2 Routing Table -
+
+The next step is to investigate the routing tables of R2 and R3;
+
+The routing table for R2 is shown in the example;
+
+Notice that the 172.16.3.0/24 network is configured incorrectly;
+
+The static route to the 172.16.3.0/24 network has been configured using the next-hop address 192.168.1.1;
+
+Therefore, packets destined for the 172.16.3.0/24 network are sent back to R3 instead of to R1;
+
+R2# show ip route | begin Gateway
+Gateway of last resort is not set
+      172.16.0.0/16 is variably subnetted, 5 subnets, 2 masks
+C        172.16.1.0/24 is directly connected, GigabitEthernet0/0/0
+L        172.16.1.1/32 is directly connected, GigabitEthernet0/0/0
+C        172.16.2.0/24 is directly connected, Serial0/1/0
+L        172.16.2.2/32 is directly connected, Serial0/1/0
+S        172.16.3.0/24 [1/0] via 192.168.1.1
+      192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.1.0/24 is directly connected, Serial0/1/1
+L        192.168.1.2/32 is directly connected, Serial0/1/1
+S     192.168.2.0/24 [1/0] via 192.168.1.1
+R2#
+
+Correct the R2 Static Route Configuration -
+
+Next, the running configuration does, in fact, reveal the incorrect ip route statement;
+
+The incorrect route is removed, and the correct route is then entered;
+
+"
+R2# show running-config | include ip route
+ip route 172.16.3.0 255.255.255.0 192.168.1.1
+ip route 192.168.2.0 255.255.255.0 192.168.1.1
+R2#
+R2# configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)# no ip route 172.16.3.0 255.255.255.0 192.168.1.1
+R2(config)# ip route 172.16.3.0 255.255.255.0 172.16.2.1
+R2(config)#
+"
+
+Verify New Static Route is Installed -
+
+The routing table on R2 is checked once again to confirm the route entry to the LAN on R1, 172.16.3.0, is correct and pointing toward R1;
+
+"
+R2(config) # exit
+R2#
+*Sep 20 02:21:51.812: %SYS-5-CONFIG_I: Configured from console by console
+R2# show ip route | begin Gateway
+Gateway of last resort is not set
+      172.16.0.0/16 is variably subnetted, 5 subnets, 2 masks
+C        172.16.1.0/24 is directly connected, GigabitEthernet0/0/0
+L        172.16.1.1/32 is directly connected, GigabitEthernet0/0/0
+C        172.16.2.0/24 is directly connected, Serial0/1/0
+L        172.16.2.2/32 is directly connected, Serial0/1/0
+S        172.16.3.0/24 [1/0] via 172.16.2.1
+      192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.1.0/24 is directly connected, Serial0/1/1
+L        192.168.1.2/32 is directly connected, Serial0/1/1
+S     192.168.2.0/24 [1/0] via 192.168.1.1
+R2#
+"
+
+Ping the Remote LAN Again -
+
+Next, a ping from R1 sourced from G0/0/0 is used to verify that R1 can now reach the LAN interface of R3;
+
+As a last step in confirmation, the user on PC1 should also test connectivity to the 192.168.2.0/24 LAN;
+
+"
+R1# ping 192.168.2.1 source g0/0/0
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.2.1, timeout is 2 seconds:
+Packet sent with a source address of 172.16.3.1
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 4/4/4 ms
+"
 
 
 
@@ -10019,20 +11039,24 @@ The authenticator, which is the switch that the client is connecting to and that
 The authentication server, which performs the actual authentication;
 
 
-A network administrator enters the following commands on the switch SW1.
+A network administrator enters the following commands on the switch SW1;
 
 SW1(config)# interface range fa0/5 – 10
 SW1(config-if)# ip dhcp snooping limit rate 6
 
 What is the effect after these commands are entered?
 
-When DHCP snooping is being configured, the number of DHCP discovery messages that untrusted ports can receive per second should be rate-limited by using the ip dhcp snooping limit rate 
+When DHCP snooping is being configured, the number of DHCP discovery messages that untrusted ports can receive per second should be rate-limited by using 
+
+the ip dhcp snooping limit rate 
 
 interface configuration command;
 
 When a port receives more messages than the rate allows, the extra messages will be dropped;
 
-A network administrator is configuring DAI on a switch with the command ip arp inspection validate src-mac . What is the purpose of this configuration command?
+A network administrator is configuring DAI on a switch with the command ip arp inspection validate src-mac . What is the purpose of this configuration 
+
+command?
 
 DAI can be configured to check for both destination or source MAC and IP addresses:
 
@@ -10107,7 +11131,7 @@ IP Source Guard (IPSG) - prevents MAC and IP address spoofing attacks;
 
 Dynamic ARP Inspection (DAI) - prevents ARP spoofing and ARP poisoning attacks;
 
-DHCP Snooping - prevents DHCP starvation and SHCP spoofing attacks;
+DHCP Snooping - prevents DHCP starvation and DHCP spoofing attacks;
 
 Port Security - prevents many types of attacks including MAC table overflow attacks and DHCP starvation attacks;
 
@@ -10150,5 +11174,12 @@ Interface FastEthernet 0/1 is configured with the violation mode of protect;
 
 If there is a violation, interface FastEthernet 0/1 will drop packets with unknown MAC addresses;
 
+
+Pergunta:
+Which value in a routing table represents trustworthiness and is used by the router to determine which route to install into the routing table when there are multiple routes toward the same destination?
+
+Resposta:
+
+The administrative distance represents the trustworthiness of a particular route. The lower an administrative distance, the more trustworthy the learned route is. When a router learns multiple routes toward the same destination, the router uses the administrative distance value to determine which route to place into the routing table. A metric is used by a routing protocol to compare routes received from the routing protocol. An exit interface is the interface used to send a packet in the direction of the destination network. A routing protocol is used to exchange routing updates between two or more adjacent routers.
 "
 "
